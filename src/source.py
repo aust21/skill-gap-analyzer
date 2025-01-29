@@ -1,5 +1,5 @@
-import requests
-from env import API_KEY, APP_ID, RESULTS_PER_PAGE, COUNTRY
+import requests, os
+from src.env import API_KEY, APP_ID, RESULTS_PER_PAGE, COUNTRY
 
 def get_job_postings(job_title):
 
@@ -29,3 +29,5 @@ def get_job_postings(job_title):
             print("-" * 50)
     else:
         print("Error fetching jobs:", response.json())
+
+# get_job_postings("data engineering")

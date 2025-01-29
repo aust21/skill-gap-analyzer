@@ -99,7 +99,7 @@ copy .env.example .env
 Run the entry point script to fetch job postings and store them in the database:
 
 ```bash
-python app.py
+python main.py
 ```
 
 ## Future Enhancements
