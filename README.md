@@ -38,11 +38,10 @@ NB: **The project is still in developement and not all features are implemented 
    cd skill-gap-analyzer
    ```
 2. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
-
-# DO NOT PROCEED WITH THESE STEPS
 
 3. Set up PostgreSQL database:
    ```sql
@@ -101,17 +100,6 @@ Run the entry point script to fetch job postings and store them in the database:
 
 ```bash
 python app.py
-```
-
-## Example Output
-
-```
-Job Title: Data Engineer
-Company: Tech Corp
-Location: Johannesburg
-Required Skills: Python, SQL, Apache Spark
-Your Skills: Python, SQL
-Missing Skills: Apache Spark
 ```
 
 ## Future Enhancements
