@@ -1,6 +1,7 @@
 import src.source as source
 import src.read_cv as cv_reader
 
+# TODO: let users upload a file ( replace with your pdf location for now )
 resume_file = "/home/austin/Documents/docs/Austin_Ngobeni_CV.pdf"
 
 def get_job_title():
