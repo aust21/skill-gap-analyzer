@@ -40,7 +40,9 @@ NB: **The project is still in development and not all features are implemented y
    pip install -r requirements.txt
    ```
 
-3. Set up PostgreSQL database:
+3. Set up PostgreSQL database:  
+**NB**: Make sure you have docker, docker desktop installed and running on your system.  
+
    ```bash
    docker-compose up -d
    ```
@@ -51,6 +53,11 @@ Run the entry point script to fetch job postings and store them in the database:
 
 ```bash
 python3 main.py
+```
+
+or 
+```bash
+python main.py
 ```
 
 ## Future Enhancements
