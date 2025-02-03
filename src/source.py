@@ -1,33 +1,38 @@
-import requests, os
-from src.env import API_KEY, APP_ID, RESULTS_PER_PAGE, COUNTRY
+import pandas as pd
+import psycopg2
 
-def get_job_postings(job_title):
+# TODO: load skills from a third party source like an API
+file = pd.read_json("resources/sample_data.json")
+conn = psycopg2.connect(
+    dbname="job_skills",
+    user="postgres",
+    password="password",
+    host="localhost",
+    port="5432"
+)
 
-    params = {
-    "app_id": APP_ID,
-    "app_key": API_KEY,
-    "results_per_page": RESULTS_PER_PAGE,
-    "what": job_title,
-    "content-type": "application/json"
-    }
+cursor = conn.cursor()
 
-    
-    # Send request
-    url = f"https://api.adzuna.com/v1/api/jobs/{COUNTRY}/search/1"
+def create_job_table():
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS job_titles(
+    id SERIAL PRIMARY KEY,
+    job_title VARCHAR(255) UNIQUE NOT NULL
+    );
+    """)
 
-    response = requests.get(url, params=params)
+def create_skills_table():
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS skills (
+    id SERIAL PRIMARY KEY,
+    job_title_id INT REFERENCES job_titles(id) ON DELETE CASCADE,
+    skill VARCHAR(255) NOT NULL
+    );
+    """)
 
-    # Parse response
-    if response.status_code == 200:
-        jobs = response.json().get("results", [])
-        for job in jobs:
-            print(f"Title: {job['title']}")
-            print(f"Company: {job.get('company', {}).get('display_name', 'N/A')}")
-            print(f"Location: {job['location']['display_name']}")
-            print(f"Description: {job['description'][:200]}...")  # Truncated
-            print(f"Job Link: {job['redirect_url']}")
-            print("-" * 50)
-    else:
-        print("Error fetching jobs:", response.json())
+create_job_table()
+create_skills_table()
 
-# get_job_postings("data engineering")
+conn.commit()
+cursor.close()
+conn.close()
