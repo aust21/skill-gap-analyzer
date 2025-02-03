@@ -49,7 +49,7 @@ NB: **The project is still in development and not all features are implemented y
 
 ## Usage
 
-Run the entry point script to fetch job postings and store them in the database:
+Run the entry point script:
 
 ```bash
 python3 main.py
