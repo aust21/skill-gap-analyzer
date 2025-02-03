@@ -41,7 +41,7 @@ NB: **The project is still in development and not all features are implemented y
    ```
 
 3. Set up PostgreSQL database:  
-**NB**: Make sure you have docker, docker desktop installed and running on your system.  
+⚠️ **NB**: Make sure you have docker, docker desktop installed and running on your system.  
 
    ```bash
    docker-compose up -d
