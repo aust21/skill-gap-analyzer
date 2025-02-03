@@ -26,7 +26,8 @@ def extract_skills(text, skill_list):
     skills = set()
 
     for token in doc:
-        if token.text in skill_list:
+        # print(token.text)
+        if token.text.title() in skill_list:
             skills.add(token.text)
     return skills
 
