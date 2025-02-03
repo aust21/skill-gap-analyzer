@@ -26,14 +26,13 @@ def extract_skills(text, skill_list):
     skills = set()
 
     for token in doc:
-        # print(token.text)
         if token.text in skill_list:
             skills.add(token.text)
     return skills
 
-doc = "/home/austin/Documents/docs/Austin_Ngobeni_CV.pdf"
-text_resume = read_resume(doc)
-skills = common_skills()
-clean_text = preprocess_text(text_resume)
-skills_from_resume = extract_skills(clean_text, skills)
-print(skills_from_resume)
+def main(resume_file, skills):
+
+    text_resume = read_resume(resume_file)
+    clean_text = preprocess_text(text_resume)
+    skills_from_resume = extract_skills(clean_text, skills)
+    print(skills_from_resume)
