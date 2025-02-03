@@ -2,21 +2,21 @@
 
 ## Overview
 
-The **Dynamic Skill Gap Analyzer** is a data engineering project that fetches job postings from **Adzuna**, extracts required skills using **Natural Language Processing (NLP)**, and compares them to a user's resume. The goal is to identify skill gaps and provide recommendations for career improvement.
+The **Dynamic Skill Gap Analyzer** is a data engineering project that extracts required skills using **Natural Language Processing (NLP)**, and compares them to a user's resume. The goal is to identify skill gaps and provide recommendations for career improvement.
 
 ## Features
 
 NB: **The project is still in development and not all features are implemented yet**    
 ✅ Extract required job skills using **NLP (spaCy)**  
 ✅ Parse and analyze a user's resume for existing skills  
-✅ Identify missing skills for career improvement  
-✅ Store job data in **PostgreSQL** for historical analysis  
+✅ Store skill data in **PostgreSQL** for historical analysis  
+❌ Identify missing skills for career improvement  
+❌ Create a dashboard for better visualizations
 
 
 ## Tech Stack
 
 - **Python** (Data Processing & NLP)
-- **Adzuna API** (Job Listings)
 - **spaCy** (Skill Extraction)
 - **PostgreSQL** (Database Storage)
 
