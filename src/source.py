@@ -1,10 +1,9 @@
 import pandas as pd
 import psycopg2
 
-SKILLS = None
-
 # TODO: load skills from a third party source like an API
 file = pd.read_json("resources/sample_data.json")
+
 conn = psycopg2.connect(
     dbname="job_skills",
     user="postgres",
@@ -15,6 +14,7 @@ conn = psycopg2.connect(
 
 cursor = conn.cursor()
 
+
 def create_job_table():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS job_titles(
@@ -22,6 +22,7 @@ def create_job_table():
     job_title VARCHAR(255) UNIQUE NOT NULL
     );
     """)
+
 
 def create_skills_table():
     cursor.execute("""
@@ -58,6 +59,7 @@ def create_data():
                 VALUES (%s, %s);
             """, (job_title_id, skill))
 
+
 def extract_skills(job_title):
     cursor.execute("""
         SELECT s.skill
@@ -70,6 +72,7 @@ def extract_skills(job_title):
     skills = cursor.fetchall()
 
     return [skill[0] for skill in skills]
+
 
 def main(job_title):
     try:
