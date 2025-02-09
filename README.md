@@ -16,7 +16,7 @@ NB: **The project is still in development and not all features are implemented y
 
 ## Tech Stack
 
-- **Python** (Data Processing & NLP)
+- **Python** (Data Processing, NLP & Dashboard)
 - **spaCy** (Skill Extraction)
 - **PostgreSQL** (Database Storage)
 
@@ -26,6 +26,7 @@ NB: **The project is still in development and not all features are implemented y
 
 - Python 3.8+
 - PostgreSQL
+- Docker Desktop (For local dev)
 
 ### Setup
 
@@ -52,7 +53,7 @@ NB: **The project is still in development and not all features are implemented y
 Run the entry point script:
 
 ```bash
-streamlit src/app.py
+python3 app.py
 ```
 
 ## Future Enhancements
