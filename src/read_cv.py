@@ -30,4 +30,4 @@ def main(resume_file, skills):
     text_resume = read_resume(resume_file)
     clean_text = preprocess_text(text_resume)
     skills_from_resume = extract_skills(clean_text, skills)
-    print(skills_from_resume)
+    return skills_from_resume

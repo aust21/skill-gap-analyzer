@@ -1,8 +1,8 @@
 import pandas as pd
 import psycopg2
 
-# Load skills from JSON file
-file = pd.read_json("resources/sample_data.json")
+# TODO: Load skills from an API or job source data
+file = pd.read_json("/home/austin/projects/skill-gap-analyzer/src/resources/sample_data.json")
 
 conn = psycopg2.connect(
     dbname="job_skills",
