@@ -277,6 +277,9 @@
   .h-63 {
     height: calc(var(--spacing) * 63);
   }
+  .w-2 {
+    width: calc(var(--spacing) * 2);
+  }
   .flex-shrink {
     flex-shrink: 1;
   }
