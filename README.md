@@ -52,12 +52,7 @@ NB: **The project is still in development and not all features are implemented y
 Run the entry point script:
 
 ```bash
-python3 main.py
-```
-
-or 
-```bash
-python main.py
+streamlit src/app.py
 ```
 
 ## Future Enhancements

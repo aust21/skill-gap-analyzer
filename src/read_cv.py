@@ -1,4 +1,4 @@
-import PyPDF2, fitz, nltk, spacy, re
+import fitz, nltk, spacy, re
 
 nlp = spacy.load("en_core_web_sm")
 
