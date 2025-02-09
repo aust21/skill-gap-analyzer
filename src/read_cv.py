@@ -9,12 +9,6 @@ def read_resume(path):
         extracted_text += page.get_text("text")
     return  extracted_text
 
-# TODO: extract these skills from job descriptions
-def common_skills():
-    return ["python", "java", "sql", "machine learning", "deep learning",
-              "pandas", "numpy", "nlp", "tensorflow", "pytorch", "aws",
-              "docker", "flask", "django", "data analysis"]
-
 def preprocess_text(text):
     text = text.lower()
     text = re.sub(r'\s+', ' ', text)  # Remove extra spaces
@@ -26,8 +20,8 @@ def extract_skills(text, skill_list):
     skills = set()
 
     for token in doc:
-        # print(token.text)
         if token.text.title() in skill_list:
+            # print(token.text)
             skills.add(token.text)
     return skills
 

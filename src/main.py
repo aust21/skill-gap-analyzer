@@ -10,7 +10,7 @@ def get_job_title():
         if job:
             return job
 
-job_title = get_job_title() # "data engineer".title()
+job_title = get_job_title()
 
 # Capture the returned skills list from source.main
 skills = source.main(job_title)
