@@ -1,16 +1,26 @@
+#skillsChart,
 #barChart {
   height: 300px;
-  width: calc(100% / 2);
-}
-
-#skillsChart {
-  height: 300px;
-  width: calc(100% / 2);
+  width: calc(100% / 2.5);
 }
 
 #charts {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 1rem;
   width: 100%;
+  margin-top: 3rem;
+}
+
+@media (max-width: 48em) {
+  #charts {
+    flex-direction: column;
+  }
+
+  #skillsChart,
+  #barChart {
+    /* height: 300px; */
+    width: 100%;
+  }
 }

@@ -1,0 +1,54 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/chats.css') }}"
+/>
+<div class="head-title">
+  <div class="left">
+    <h1>Analytics</h1>
+  </div>
+</div>
+
+<div class="container">
+  <ul class="box-info">
+    <li>
+      <i class="bx"></i>
+      <span class="text">
+        <h3>Analytics for</h3>
+        <p>{{ job }}</p>
+      </span>
+    </li>
+    <li>
+      <i class="bx bxs-hard-hat"></i>
+      <span class="text">
+        <h3>{{ matched_skills|length }}</h3>
+        <p>matched skills</p>
+      </span>
+    </li>
+    <li>
+      <i class="bx"></i>
+      <span class="text">
+        <h3>{{ missing_skills|length }}</h3>
+        <p>missing skills</p>
+      </span>
+    </li>
+  </ul>
+</div>
+<div id="charts">
+  <!-- Pie Chart on the left -->
+  <div class="">
+    <canvas id="skillsChart"></canvas>
+  </div>
+
+  <!-- Bar Graph on the right -->
+  <div class="">
+    <canvas id="barChart"></canvas>
+  </div>
+</div>
+
+<script>
+  window.chartData = {
+    matchedSkills: {{ matched_skills|length }},
+    missingSkills: {{ missing_skills|length }}
+  };
+</script>
+<script src="{{url_for('static', filename='js/dash.js')}}"></script>
