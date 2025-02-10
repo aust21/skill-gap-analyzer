@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 import src.read_cv as cv_reader
 import src.source as job_source  
 import os
@@ -16,8 +16,8 @@ def dashboard():
         job_title = request.form.get("job")
         if resume:
 
-            # if not os.path.exists("/uploads"):
-            #     os.mkdir("uploads")
+            if not os.path.exists("uploads"):
+                os.mkdir("uploads")
             # Save file temporarily
             resume_path = f"uploads/{resume.filename}"
             resume.save(resume_path)
@@ -41,3 +41,12 @@ def dashboard():
     missing_skills = session.get("missing_skills", [])
 
     return render_template("dash/dashboard.html", matched_skills=matched_skills, missing_skills=missing_skills)
+
+@views.route("/api/skills-data")
+def skills_data():
+    matched_skills = session.get("matched_skills", [])
+    missing_skills = session.get("missing_skills", [])
+    return jsonify({
+        "matched_skills": matched_skills,
+        "missing_skills": missing_skills
+    })

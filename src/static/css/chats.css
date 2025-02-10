@@ -1,0 +1,16 @@
+#barChart {
+  height: 300px;
+  width: calc(100% / 2);
+}
+
+#skillsChart {
+  height: 300px;
+  width: calc(100% / 2);
+}
+
+#charts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}

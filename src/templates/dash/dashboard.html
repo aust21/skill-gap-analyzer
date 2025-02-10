@@ -4,30 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <main>
-      <section class="bg-gray-100 min-h-screen py-10">
-        <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-3xl font-semibold text-blue-900 text-center">
-            Skill Gap Analysis
-          </h2>
-
-          <h3 class="text-xl text-green-600 mt-4">Matched Skills ✅</h3>
-          <ul class="list-disc ml-6 text-gray-700">
-            {% for skill in matched_skills %}
-            <li>{{ skill }}</li>
-            {% endfor %}
-          </ul>
-
-          <h3 class="text-xl text-red-600 mt-4">Missing Skills ❌</h3>
-          <ul class="list-disc ml-6 text-gray-700">
-            {% for skill in missing_skills %}
-            <li>{{ skill }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
+      {% include 'dash/section1.html' %} {% include 'dash/section2.html' %}
     </main>
+
+    <script>
+      window.chartData = {
+        matchedSkills: {{ matched_skills|length }},
+        missingSkills: {{ missing_skills|length }}
+      };
+    </script>
+    <script src="{{url_for('static', filename='js/dash.js')}}"></script>
   </body>
 </html>

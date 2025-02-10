@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="{{url_for('static', filename='css/chats.css')}}" />
+<section class="bg-gray-100 min-h-screen py-10">
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-3xl font-semibold text-blue-900 text-center">
+      Skill Gap Analysis
+    </h2>
+  </div>
+  <div id="charts">
+    <!-- Pie Chart on the left -->
+    <div class="">
+      <canvas id="skillsChart"></canvas>
+    </div>
+
+    <!-- Bar Graph on the right -->
+    <div class="">
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-6">
+    <div>
+      <h3 class="text-xl text-green-600">Matched Skills ✅</h3>
+      <ul class="list-disc ml-6 text-gray-700">
+        {% for skill in matched_skills %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-xl text-red-600">Missing Skills ❌</h3>
+      <ul class="list-disc ml-6 text-gray-700">
+        {% for skill in missing_skills %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
