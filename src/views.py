@@ -11,13 +11,18 @@ def home():
 
 @views.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    if request.method == "POST":
-        resume = request.files.get("resume")
-        job_title = request.form.get("job")
-        if resume:
+    view = request.args.get("view", "dash")
+    resume = request.files.get("resume")
+    job_title = request.form.get("job")
 
+    if request.method == "POST":
+        if job_title:  # Store job title in session
+            session["job_title"] = job_title
+        
+        if resume:
             if not os.path.exists("uploads"):
                 os.mkdir("uploads")
+            
             # Save file temporarily
             resume_path = f"uploads/{resume.filename}"
             resume.save(resume_path)
@@ -35,18 +40,14 @@ def dashboard():
             session["matched_skills"] = list(matched_skills)
             session["missing_skills"] = list(set(job_skills) - set(matched_skills))
 
-            return redirect(url_for("views.dashboard")) 
+            return redirect(url_for("views.dashboard"))
 
+    # Retrieve job title from session if available
+    job_title = session.get("job_title", "No Job Title Provided")
+    
     matched_skills = session.get("matched_skills", [])
     missing_skills = session.get("missing_skills", [])
 
-    return render_template("dash/dashboard.html", matched_skills=matched_skills, missing_skills=missing_skills)
+    return render_template("dash/dashboard.html", matched_skills=matched_skills, missing_skills=missing_skills, job=job_title, view=view)
 
-@views.route("/api/skills-data")
-def skills_data():
-    matched_skills = session.get("matched_skills", [])
-    missing_skills = session.get("missing_skills", [])
-    return jsonify({
-        "matched_skills": matched_skills,
-        "missing_skills": missing_skills
-    })
+

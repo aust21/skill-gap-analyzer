@@ -5,18 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/dash.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/output.css')}}"
+    />
   </head>
   <body>
     <main>
-      {% include 'dash/section1.html' %} {% include 'dash/section2.html' %}
+      <section id="sidebar">
+        <a href="{{url_for('views.home')}}" class="brand">
+          <img
+            src="{{url_for('static', filename='assets/logo.png')}}"
+            alt="logo"
+            class="w-[2.5rem]"
+            style="margin-left: 0.6rem"
+          />
+          <span style="margin-left: 1rem">Dashboard</span>
+        </a>
+        <ul class="side-menu top">
+          <li class="{% if view == 'dash' %}active{% endif %}">
+            <a href="{{ url_for('views.dashboard', view='dash') }}">
+              <i class="bx bxs-dashboard"></i>
+              <span class="text">Dashboard</span>
+            </a>
+          </li>
+          <li class="{% if view == 'insights' %}active{% endif %}">
+            <a href="{{ url_for('views.dashboard', view='insights') }}">
+              <i class="bx bxs-analyse"></i>
+              <span class="text">Insights</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <!-- SIDEBAR -->
+
+      <!-- CONTENT -->
+      <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+          <i class="bx bx-menu"></i>
+        </nav>
+
+        <main>
+          {% if view=="insights" %} {% include 'dash/analytics.html' %} {% else
+          %} {% include 'dash/default.html' %} {% endif %}
+        </main>
+        <!-- MAIN -->
+      </section>
+      <!-- CONTENT -->
     </main>
 
     <script>
-      window.chartData = {
-        matchedSkills: {{ matched_skills|length }},
-        missingSkills: {{ missing_skills|length }}
-      };
+      const allSideMenu = document.querySelectorAll(
+        "#sidebar .side-menu.top li a"
+      );
+
+      allSideMenu.forEach((item) => {
+        const li = item.parentElement;
+
+        item.addEventListener("click", function () {
+          allSideMenu.forEach((i) => {
+            i.parentElement.classList.remove("active");
+          });
+          li.classList.add("active");
+        });
+      });
+
+      // TOGGLE SIDEBAR
+      const menuBar = document.querySelector("#content nav .bx.bx-menu");
+      const sidebar = document.getElementById("sidebar");
+
+      menuBar.addEventListener("click", function () {
+        sidebar.classList.toggle("hide");
+      });
+
+      const switchMode = document.getElementById("switch-mode");
+
+      switchMode.addEventListener("change", function () {
+        if (this.checked) {
+          document.body.classList.add("dark");
+        } else {
+          document.body.classList.remove("dark");
+        }
+      });
     </script>
-    <script src="{{url_for('static', filename='js/dash.js')}}"></script>
   </body>
 </html>
