@@ -11,12 +11,7 @@ if __name__ == "__main__":
 # import read_cv as cv_reader
 # import os
 
-# # Get the current directory where your Python script is located
-# current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# # Construct paths relative to src directory
-# html_path = os.path.join(current_dir, 'templates', 'index.html')
-# css_path = os.path.join(current_dir, 'static', 'style.css')
 
 
 # def read_css_file(css_file):
