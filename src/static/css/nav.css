@@ -1,0 +1,33 @@
+.navigation {
+  background: hsl(0 0% 0% /0.8);
+  transition: transform 350ms ease-out;
+  z-index: -1;
+}
+
+/* side menu */
+.navigation {
+  position: fixed;
+  flex-direction: column;
+  justify-content: initial;
+  gap: 2rem;
+  inset: 0 0 0 73%;
+  padding: 10rem 2rem;
+  transform: translateX(100%);
+}
+
+.navigation[data-visible="true"] {
+  transform: translateX(0%);
+}
+
+@supports (backdrop-filter: blur(1rem)) {
+  .navigation {
+    background: hsl(0 0% 100% /0.1);
+    backdrop-filter: blur(1rem);
+  }
+}
+
+@media (max-width: 35em) {
+  .navigation {
+    inset: 0 0 0 40%;
+  }
+}

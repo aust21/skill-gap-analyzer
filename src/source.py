@@ -98,9 +98,3 @@ def main(job_title):
     finally:
         cursor.close()
         conn.close()
-
-
-if __name__ == "__main__":
-    job = input("Enter job title: ").strip()
-    skills = main(job)
-    print(f"Skills for {job}: {skills}")

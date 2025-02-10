@@ -1,0 +1,63 @@
+{% extends "index.html" %} {% block content %}
+<section class="bg-[#fff] min-h-[90vh] relative">
+  <div
+    class="absolute translate-x-[-50%] translate-y-[-50%] top-[70%] left-[50%] text-center w-[40%]"
+  >
+    <h1 class="text-3xl text-blue-950 font-semibold mb-[1rem]">
+      Bridge the Gap Between Your Skills & Dream Job
+    </h1>
+
+    <form
+      action="{{ url_for('views.dashboard') }}"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div class="flex justify-between items-center gap-[1rem] pt-[1rem]">
+        <div class="">
+          <label
+            for="resume"
+            class="cursor-pointer bg-blue-600 text-white py-3 px-3 rounded-lg shadow-md hover:bg-blue-700 transition-all"
+          >
+            📁 Upload Your Resume
+          </label>
+
+          <input
+            type="file"
+            name="resume"
+            id="resume"
+            class="hidden"
+            onchange="updateFileName(this)"
+          />
+
+          <p id="file-name" class="text-white"></p>
+        </div>
+
+        <div
+          class="outline-[1px] outline-black rounded-lg py-2 px-3 flex justify-between items-center"
+        >
+          <!-- <label for="job">Enter job title</label> -->
+          <input
+            type="text"
+            name="job"
+            id="job"
+            class="outline-0"
+            placeholder="Enter job title"
+          />
+          <button type="submit">
+            <img src="{{url_for('static', filename='assets/a.svg')}}" alt="" />
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function updateFileName(input) {
+      const fileName = input.files.length
+        ? input.files[0].name
+        : "No file chosen";
+      document.getElementById("file-name").textContent = fileName;
+    }
+  </script>
+</section>
+{% endblock %}

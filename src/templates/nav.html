@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}" />
+<header class="w-full fixed z-50">
+  <nav class="nav flex justify-between items-center w-[95%] mx-auto py-5 px-10">
+    <a href="{{ url_for('views.home') }}"
+      ><img
+        src="{{ url_for('static', filename='assets/logo.png') }}"
+        alt="DeepT"
+        class="w-[5rem]"
+    /></a>
+    <ul class="hidden justify-between items-center md:flex">
+      <li class="mr-[1.5rem]">
+        <a
+          href="{{ url_for('views.home') }}"
+          class="text-blac text-sm font-semibold"
+          >Home</a
+        >
+      </li>
+      <li class="mr-[1.5rem]">
+        <a
+          href="{{ url_for('views.home') }}"
+          class="text-blac text-sm font-semibold"
+          >How it works</a
+        >
+      </li>
+      <li class="mr-[1.5rem]">
+        <a
+          href="{{ url_for('views.home') }}"
+          class="text-blac text-sm font-semibold"
+          >About</a
+        >
+      </li>
+    </ul>
+
+    <ul
+      id="navigation"
+      class="navigation flex justify-between items-center"
+      data-visible="false"
+    >
+      <li class="mr-[1.5rem]">
+        <a
+          href="{{ url_for('views.home') }}"
+          class="text-blac text-sm font-semibold"
+          >Home</a
+        >
+      </li>
+      <li class="mr-[1.5rem]">
+        <a
+          href="{{ url_for('views.home') }}"
+          class="text-blac text-sm font-semibold"
+          >How it works</a
+        >
+      </li>
+      <li class="mr-[1.5rem]">
+        <a
+          href="{{ url_for('views.home') }}"
+          class="text-blac text-sm font-semibold"
+          >About</a
+        >
+      </li>
+    </ul>
+
+    <div class="buttons flex justify-between items-center gap-2">
+      <button
+        class="toggle cursor-pointer z-[1111111111111]"
+        type="button"
+        name="button"
+        aria-expanded="false"
+        class="text-blac"
+        style="color: blac"
+      >
+        Menu
+      </button>
+    </div>
+  </nav>
+</header>
