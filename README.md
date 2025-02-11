@@ -11,24 +11,27 @@ NB: **The project is still in development and not all features are implemented y
 ✅ Parse and analyze a user's resume for existing skills  
 ✅ Store skill data in **PostgreSQL** for historical analysis  
 ❌ Identify missing skills for career improvement  
-❌ Create a dashboard for better visualizations
-
-
-## Tech Stack
+✅ Create a dashboard for better visualizations  
+✅ View the live [demo](skill-gap-analyzer.onrender.com/) demo
+---
+## Info for nerds 😊
+### Tech Stack
 
 - **Python** (Data Processing, NLP & Dashboard)
 - **spaCy** (Skill Extraction)
 - **PostgreSQL** (Database Storage)
 
-## Installation
+---
 
-### Prerequisites
+### Installation (for developers)
+
+#### Prerequisites 
 
 - Python 3.8+
 - PostgreSQL
 - Docker Desktop (For local dev)
 
-### Setup
+#### Setup
 
 1. Clone the repository:
    ```bash
@@ -48,7 +51,7 @@ NB: **The project is still in development and not all features are implemented y
    docker-compose up -d
    ```
 
-## Usage
+#### Usage
 
 Run the entry point script:
 
