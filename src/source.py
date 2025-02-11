@@ -96,9 +96,9 @@ def extract_skills(job_title):
 
 def main(job_title):
     try:
-        create_job_table()
-        create_skills_table()
-        create_data()
+        # create_job_table()
+        # create_skills_table()
+        # create_data()
         skills = extract_skills(job_title)
 
         return skills
