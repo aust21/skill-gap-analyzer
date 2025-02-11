@@ -2,12 +2,13 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import src.read_cv as cv_reader
 import src.source as job_source  
 import os
-
+import pandas as pd
 views = Blueprint("views", __name__)
 
 @views.route("/")
 def home():
-    return render_template("landing/landing.html")
+    jobs = current_jobs()
+    return render_template("landing/landing.html", jobs=jobs)
 
 @views.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
@@ -52,3 +53,13 @@ def dashboard():
     return render_template("dash/dashboard.html", matched_skills=matched_skills, missing_skills=missing_skills, job=job_title, view=view)
 
 
+
+def current_jobs():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file = pd.read_json(os.path.join(current_dir, 'resources', 'sample_data.json'))
+    jobs = set()
+    for record in file.to_dict(orient="records"):
+        job_title = record['job_title'].strip()
+        jobs.add(job_title)
+
+    return jobs
