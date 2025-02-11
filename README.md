@@ -13,7 +13,7 @@ NB: **The project is still in development and not all features are implemented y
 ❌ Identify missing skills for career improvement  
 ✅ Create a dashboard for better visualizations  
 ✅ View the live [demo](skill-gap-analyzer.onrender.com/) demo
----
+
 ## Info for nerds 😊
 ### Tech Stack
 
