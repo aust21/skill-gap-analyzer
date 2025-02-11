@@ -20,6 +20,7 @@ def dashboard():
             session["job_title"] = job_title
         
         if resume:
+            print("resume uploaded---------------------")
             if not os.path.exists("uploads"):
                 os.mkdir("uploads")
             
@@ -30,7 +31,7 @@ def dashboard():
             # Extract text from the resume
             extracted_text = cv_reader.read_resume(resume_path)
             clean_text = cv_reader.preprocess_text(extracted_text)
-
+            # job_source.create_data()
             job_skills = job_source.extract_skills(job_title)
 
             # Extract skills from resume

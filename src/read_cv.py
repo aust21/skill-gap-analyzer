@@ -1,12 +1,13 @@
-import fitz, nltk, spacy, re
+import spacy, re, pypdf
 
 nlp = spacy.load("en_core_web_sm")
 
 def read_resume(path):
     extracted_text = ""
-    resume = fitz.open(path)
-    for page in resume:
-        extracted_text += page.get_text("text")
+    resume = pypdf.PdfReader(path)
+
+    for page in resume.pages:
+        extracted_text += page.extract_text()
     return  extracted_text
 
 def preprocess_text(text):
