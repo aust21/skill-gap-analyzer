@@ -1,0 +1,8 @@
+@media (max-width: 50em) {
+  .parent {
+    width: 100%;
+  }
+  .first {
+    flex-direction: column;
+  }
+}

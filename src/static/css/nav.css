@@ -1,5 +1,5 @@
 .navigation {
-  background: hsl(0 0% 0% /0.8);
+  background: rgb(65, 61, 61);
   transition: transform 350ms ease-out;
   z-index: -1;
 }
@@ -17,13 +17,6 @@
 
 .navigation[data-visible="true"] {
   transform: translateX(0%);
-}
-
-@supports (backdrop-filter: blur(1rem)) {
-  .navigation {
-    background: hsl(0 0% 100% /0.1);
-    backdrop-filter: blur(1rem);
-  }
 }
 
 @media (max-width: 35em) {

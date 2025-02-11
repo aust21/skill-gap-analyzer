@@ -1,7 +1,11 @@
 {% extends "index.html" %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/landing.css')}}"
+/>
 <section class="bg-[#fff] min-h-[90vh] relative">
   <div
-    class="absolute translate-x-[-50%] translate-y-[-50%] top-[70%] left-[50%] text-center w-[40%]"
+    class="parent absolute translate-x-[-50%] translate-y-[-50%] top-[70%] left-[50%] text-center w-[40%]"
   >
     <h1 class="text-3xl text-blue-950 font-semibold mb-[1rem]">
       Bridge the Gap Between Your Skills & Dream Job
@@ -12,7 +16,7 @@
       method="POST"
       enctype="multipart/form-data"
     >
-      <div class="flex justify-between items-center gap-[1rem] pt-[1rem]">
+      <div class="first flex justify-between items-center gap-[1rem] pt-[1rem]">
         <div class="">
           <label
             for="resume"
@@ -28,8 +32,6 @@
             class="hidden"
             onchange="updateFileName(this)"
           />
-
-          <p id="file-name" class="text-white"></p>
         </div>
 
         <div
@@ -47,6 +49,7 @@
           </button>
         </div>
       </div>
+      <p id="file-name" class="text-black mt-[1rem]"></p>
     </form>
   </div>
 
@@ -54,9 +57,12 @@
   <div
     id="popup"
     class="fixed top-0 left-0 w-full h-full bg-[#000000a0] flex justify-center items-center px-4"
+    onclick="closePopupOutside(event)"
   >
     <div
+      id="popup-content"
       class="bg-white p-6 rounded-lg shadow-lg text-center w-[90%] md:w-[50%] lg:w-[40%] max-h-[80vh] overflow-y-auto"
+      onclick="event.stopPropagation()"
     >
       <h3 class="text-2xl font-semibold text-blue-900 mb-3">
         🚀 This project is currently under development
@@ -85,34 +91,32 @@
 
       <button
         onclick="closePopup()"
-        class="mt-6 bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-blue-700 transition-all cursor-pointer"
+        class="cursor-pointer mt-6 bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-blue-700 transition-all"
       >
         Close
       </button>
     </div>
   </div>
-</section>
 
-<script>
-  function updateFileName(input) {
-    const fileName = input.files[0] ? input.files[0].name : "";
-    document.getElementById("file-name").innerText = fileName;
-
-    // Show the popup
-    if (fileName) {
-      document.getElementById("popup").classList.remove("hidden");
+  <script>
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
     }
-  }
 
-  function closePopup() {
-    document.getElementById("popup").classList.add("hidden");
-  }
+    function closePopupOutside(event) {
+      if (event.target.id === "popup") {
+        closePopup();
+      }
+    }
 
-  function updateFileName(input) {
-    const fileName = input.files.length
-      ? input.files[0].name
-      : "No file chosen";
-    document.getElementById("file-name").textContent = fileName;
-  }
-</script>
-{% endblock %}
+    function updateFileName(input) {
+      const fileName = input.files.length
+        ? input.files[0].name
+        : "No file chosen";
+      document.getElementById("file-name").textContent = fileName;
+    }
+  </script>
+
+  <script src="{{url_for('static', filename='js/app.js')}}"></script>
+  {% endblock %}
+</section>
