@@ -16,17 +16,19 @@ PORT = int(os.getenv("port"))
 DBNAME = os.getenv("dbname")
 
 # print(USER, PASSWORD, HOST, PORT, DBNAME)
-conn = psycopg2.connect(
-    dbname=DBNAME,
-    user=USER,
-    password=PASSWORD,
-    host=HOST,
-    port=int(PORT)
-)
-cursor = conn.cursor()
+def connect_to_db():
+    conn = psycopg2.connect(
+        dbname=DBNAME,
+        user=USER,
+        password=PASSWORD,
+        host=HOST,
+        port=int(PORT)
+    )
+    cursor = conn.cursor()
+    return cursor, conn
 
 
-def create_job_table():
+def create_job_table(cursor, conn):
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS job_titles (
         id SERIAL PRIMARY KEY,
@@ -36,7 +38,7 @@ def create_job_table():
     conn.commit()
 
 
-def create_skills_table():
+def create_skills_table(cursor, conn):
     cursor.execute("""
     DROP TABLE IF EXISTS skills;
     CREATE TABLE skills (
@@ -48,7 +50,7 @@ def create_skills_table():
     """)
     conn.commit()
 
-def create_data():
+def create_data(cursor, conn):
     for record in file.to_dict(orient="records"):
         job_title = record['job_title'].strip()
         skills = record['skills']
@@ -83,7 +85,7 @@ def create_data():
         conn.commit()  # Commit after each job title and its skills
 
 
-def extract_skills(job_title):
+def extract_skills(job_title, cursor):
     cursor.execute("""
         SELECT DISTINCT s.skill
         FROM skills s
@@ -94,12 +96,12 @@ def extract_skills(job_title):
     return [skill[0] for skill in skills]
 
 
-def main(job_title):
+def main(job_title, cursor, conn):
     try:
         # create_job_table()
         # create_skills_table()
         # create_data()
-        skills = extract_skills(job_title)
+        skills = extract_skills(job_title, cursor)
 
         return skills
 
