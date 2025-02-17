@@ -2,8 +2,6 @@ import pandas as pd
 import psycopg2, os
 from dotenv import load_dotenv
 
-load_dotenv("../.env")
-
 # TODO: Load skills from an API or job source data
 current_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(current_dir, 'resources', 'sample_data.json')
