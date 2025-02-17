@@ -1,0 +1,82 @@
+[
+  {
+    "job_title": "Data Engineer",
+    "skills": ["Python", "SQL", "Apache Spark", "ETL", "BigQuery", "AWS", "Airflow", "Hadoop"]
+  },
+  {
+    "job_title": "Machine Learning Engineer",
+    "skills": ["Python", "TensorFlow", "PyTorch", "NLP", "Scikit-learn", "AWS", "Model Deployment"]
+  },
+  {
+    "job_title": "Software Engineer",
+    "skills": ["Java", "Spring Boot", "REST APIs", "Docker", "Kubernetes", "PostgreSQL", "Microservices"]
+  },
+  {
+    "job_title": "Cybersecurity Analyst",
+    "skills": ["Network Security", "Penetration Testing", "SIEM", "Ethical Hacking", "Firewalls", "Incident Response"]
+  },
+  {
+    "job_title": "Cloud Solutions Architect",
+    "skills": ["AWS", "Azure", "Google Cloud", "Terraform", "Kubernetes", "Cloud Security", "CI/CD"]
+  },
+  {
+    "job_title": "Frontend Developer",
+    "skills": ["JavaScript", "React.js", "Vue.js", "HTML", "CSS", "TypeScript", "Webpack"]
+  },
+  {
+    "job_title": "Backend Developer",
+    "skills": ["Node.js", "Express.js", "MongoDB", "GraphQL", "Redis", "Docker", "Microservices"]
+  },
+  {
+    "job_title": "DevOps Engineer",
+    "skills": ["CI/CD", "Jenkins", "Kubernetes", "Docker", "Terraform", "AWS", "Linux", "Monitoring"]
+  },
+  {
+    "job_title": "Data Scientist",
+    "skills": ["Python", "R", "Statistics", "Machine Learning", "SQL", "Pandas", "Data Visualization"]
+  },
+  {
+    "job_title": "AI Engineer",
+    "skills": ["Deep Learning", "TensorFlow", "PyTorch", "NLP", "Computer Vision", "Reinforcement Learning"]
+  },
+  {
+    "job_title": "Database Administrator",
+    "skills": ["SQL", "PostgreSQL", "MySQL", "MongoDB", "Database Optimization", "ETL", "Data Warehousing"]
+  },
+  {
+    "job_title": "Full Stack Developer",
+    "skills": ["JavaScript", "React.js", "Node.js", "Express.js", "MongoDB", "Docker", "GraphQL"]
+  },
+  {
+    "job_title": "Mobile App Developer",
+    "skills": ["Swift", "Kotlin", "React Native", "Flutter", "iOS", "Android", "Firebase"]
+  },
+  {
+    "job_title": "Blockchain Developer",
+    "skills": ["Solidity", "Ethereum", "Hyperledger", "Smart Contracts", "Cryptography", "DApps"]
+  },
+  {
+    "job_title": "Embedded Systems Engineer",
+    "skills": ["C", "C++", "RTOS", "Microcontrollers", "IoT", "Firmware Development"]
+  },
+  {
+    "job_title": "QA Engineer",
+    "skills": ["Selenium", "JUnit", "Cypress", "Test Automation", "Performance Testing", "CI/CD"]
+  },
+  {
+    "job_title": "IT Support Specialist",
+    "skills": ["Windows", "Linux", "Networking", "Active Directory", "Help Desk", "Troubleshooting"]
+  },
+  {
+    "job_title": "Network Engineer",
+    "skills": ["Cisco", "Networking", "Firewall Configuration", "BGP", "VPN", "Wireless Networks"]
+  },
+  {
+    "job_title": "Game Developer",
+    "skills": ["Unity", "C#", "Unreal Engine", "Game Physics", "3D Rendering", "AI for Games"]
+  },
+  {
+    "job_title": "Cloud Security Engineer",
+    "skills": ["Cloud Security", "IAM", "SIEM", "AWS Security", "Compliance", "Incident Response"]
+  }
+]
