@@ -11,7 +11,6 @@ default_args = {
 }
 
 POSTGRES_CONN_ID = "postgres_default"
-API_CONN_ID = "open_meteo_api"
 
 with DAG(
     dag_id="skill_gap_pipeline",
@@ -27,4 +26,43 @@ with DAG(
         file = pd.read_json(file_path)
         return file
 
+    @task
+    def load(data):
+        postgres_hook = PostgresHook(postgres_conn_id=POSTGRES_CONN_ID)
+        conn = postgres_hook.get_conn()
+        cursor = conn.cursor()
+
+        for record in data.to_dict(orient="records"):
+            job_title = record['job_title'].strip()
+            skills = record['skills']
+
+            # Insert job title
+            cursor.execute("""
+                INSERT INTO job_titles (job_title)
+                VALUES (%s)
+                ON CONFLICT (job_title) DO NOTHING
+                RETURNING id;
+            """, (job_title,))
+
+            result = cursor.fetchone()
+            if result:
+                job_title_id = result[0]
+            else:
+                # If there was a conflict (job title already exists), get its ID
+                cursor.execute("""
+                    SELECT id FROM job_titles WHERE job_title = %s;
+                """, (job_title,))
+                job_title_id = cursor.fetchone()[0]
+
+            # Insert skills with explicit reference to the unique constraint
+            for skill in skills:
+                cursor.execute("""
+                    INSERT INTO skills (job_title_id, skill)
+                    VALUES (%s, %s)
+                    ON CONFLICT ON CONSTRAINT unique_job_skill DO NOTHING;
+                """, (job_title_id, skill))
+
+            conn.commit()
+
     sample_data = extract_data()
+    load(sample_data)
