@@ -34,12 +34,11 @@ with DAG(
 
     @task
     def load(data):
-        # try:
+        try:
             logger.info("Connecting to postgres")
             postgres_hook = PostgresHook(postgres_conn_id=POSTGRES_CONN_ID)
             conn = postgres_hook.get_conn()
             cursor = conn.cursor()
-
             logger.info("Connection successful")
 
             # prefetch job titles to avoid duplicates
@@ -47,9 +46,8 @@ with DAG(
 
             # Get all rows
             rows = cursor.fetchall()
-
             existing_jobs = {row[1]: row[0] for row in rows} if rows else {}
-            print(existing_jobs)
+
             # prepare to insert new jobs
             new_jobs = [job.strip() for job in data["job_title"] if job
                         not in
@@ -89,8 +87,10 @@ with DAG(
                 )
             conn.commit()
 
-        # except Exception as e:
-        #     logger.error(f"Failed to load data into postgres\nTraceback: {e}")
+        except Exception as e:
+            logger.error(f"Failed to load data into postgres\nTraceback: {e}")
+        finally:
+            logger.info("Data loading operation complete")
 
     sample_data = extract_data()
     load(sample_data)
