@@ -86,7 +86,7 @@ def create_data(cursor, conn):
 def extract_skills(job_title, cursor):
     cursor.execute("""
         SELECT DISTINCT s.skill
-        FROM skills s
+        FROM job_skills s
         JOIN job_titles j ON s.job_title_id = j.id
         WHERE LOWER(j.job_title) = LOWER(%s);
     """, (job_title,))
