@@ -59,7 +59,8 @@ def extract_skills(job_title):
             'password': os.getenv("PASSWORD")
         }
         engine = create_engine(
-            "postgresql://postgres:65AnLzPWhgkQAKth@db.czgahlgpbgwzhjsmtpuy.supabase.co:5432/postgres".format(
+            "postgresql://postgres:{password}@db.czgahlgpbgwzhjsmtpuy"
+            ".supabase.co:5432/postgres".format(
                 **conf
             )
         )
