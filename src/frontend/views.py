@@ -1,14 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
-import src.read_cv as cv_reader
-import src.source as job_source  
-import os
+import src.backend.read_cv as cv_reader
+import src.backend.source as job_source
+import os, sys
 import pandas as pd
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
 views = Blueprint("views", __name__)
 
 @views.route("/")
 def home():
     jobs = current_jobs()
-    return render_template("landing/landing.html", jobs=jobs)
+    return render_template(
+        "landing/landing.html", jobs=jobs)
 
 @views.route("/dashboard", methods=["GET", "POST"])
 def dashboard():

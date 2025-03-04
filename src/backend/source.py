@@ -1,11 +1,8 @@
 import pandas as pd
-import psycopg2, os
-from dotenv import load_dotenv
+import psycopg2, os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 # TODO: Load skills from an API or job source data
-current_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(current_dir, 'resources', 'sample_data.json')
-file = pd.read_json(file_path)
 
 USER = os.getenv("user")
 PASSWORD = os.getenv("password")
@@ -48,7 +45,7 @@ def create_skills_table(cursor, conn):
     """)
     conn.commit()
 
-def create_data(cursor, conn):
+def create_data(cursor, conn, file):
     for record in file.to_dict(orient="records"):
         job_title = record['job_title'].strip()
         skills = record['skills']
