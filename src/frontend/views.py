@@ -19,13 +19,12 @@ def dashboard():
     resume = request.files.get("resume")
     job_title = request.form.get("job")
 
-    cursor, conn = job_source.connect_to_db()
+    # cursor, conn = job_source.connect_to_db()
     if request.method == "POST":
         if job_title:  # Store job title in session
             session["job_title"] = job_title
         
         if resume:
-            print("resume uploaded---------------------")
             if not os.path.exists("uploads"):
                 os.mkdir("uploads")
             
@@ -37,7 +36,7 @@ def dashboard():
             extracted_text = cv_reader.read_resume(resume_path)
             clean_text = cv_reader.preprocess_text(extracted_text)
             # job_source.create_data()
-            job_skills = job_source.extract_skills(job_title, cursor)
+            job_skills = job_source.extract_skills(job_title)
 
             # Extract skills from resume
             matched_skills = cv_reader.extract_skills(clean_text, job_skills)

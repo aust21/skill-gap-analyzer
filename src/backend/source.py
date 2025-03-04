@@ -1,5 +1,7 @@
 import pandas as pd
-import psycopg2, os, sys
+import psycopg2, os, sys, logging
+from sqlalchemy.orm.session import sessionmaker
+from sqlalchemy.engine import create_engine
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 # TODO: Load skills from an API or job source data
@@ -11,39 +13,6 @@ PORT = int(os.getenv("port"))
 DBNAME = os.getenv("dbname")
 
 # print(USER, PASSWORD, HOST, PORT, DBNAME)
-def connect_to_db():
-    conn = psycopg2.connect(
-        dbname=DBNAME,
-        user=USER,
-        password=PASSWORD,
-        host=HOST,
-        port=int(PORT)
-    )
-    cursor = conn.cursor()
-    return cursor, conn
-
-
-def create_job_table(cursor, conn):
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS job_titles (
-        id SERIAL PRIMARY KEY,
-        job_title VARCHAR(255) UNIQUE NOT NULL
-    );
-    """)
-    conn.commit()
-
-
-def create_skills_table(cursor, conn):
-    cursor.execute("""
-    DROP TABLE IF EXISTS skills;
-    CREATE TABLE skills (
-        id SERIAL PRIMARY KEY,
-        job_title_id INT REFERENCES job_titles(id) ON DELETE CASCADE,
-        skill VARCHAR(255) NOT NULL,
-        CONSTRAINT unique_job_skill UNIQUE (job_title_id, skill)
-    );
-    """)
-    conn.commit()
 
 def create_data(cursor, conn, file):
     for record in file.to_dict(orient="records"):
@@ -80,15 +49,38 @@ def create_data(cursor, conn, file):
         conn.commit()  # Commit after each job title and its skills
 
 
-def extract_skills(job_title, cursor):
-    cursor.execute("""
-        SELECT DISTINCT s.skill
-        FROM job_skills s
-        JOIN job_titles j ON s.job_title_id = j.id
-        WHERE LOWER(j.job_title) = LOWER(%s);
-    """, (job_title,))
-    skills = cursor.fetchall()
-    return [skill[0] for skill in skills]
+def extract_skills(job_title):
+    try:
+        conf = {
+            'host': os.getenv("HOST"),
+            'port': os.getenv("PORT"),
+            'database': os.getenv("DB"),
+            'user': os.getenv("USER"),
+            'password': os.getenv("PASSWORD")
+        }
+        engine = create_engine(
+            "postgresql://postgres:65AnLzPWhgkQAKth@db.czgahlgpbgwzhjsmtpuy.supabase.co:5432/postgres".format(
+                **conf
+            )
+        )
+        session = sessionmaker(bind=engine)
+        session_obj = session()
+        logging.info("Connected to database")
+
+        results = session_obj.execute(
+            """
+            SELECT DISTINCT s.skill
+            FROM job_skills s
+            JOIN job_titles j ON s.job_title_id = j.id
+            WHERE LOWER(j.job_title) = LOWER(:job_title);
+        """, {"job_title": job_title}
+            )
+        skills = results.fetchall()
+        return [skill[0] for skill in skills]
+    except Exception as e:
+        logging.error(
+            f"Something happened with extract jobs {e}"
+                      , exc_info=True)
 
 
 def main(job_title, cursor, conn):
@@ -96,7 +88,7 @@ def main(job_title, cursor, conn):
         # create_job_table()
         # create_skills_table()
         # create_data()
-        skills = extract_skills(job_title, cursor)
+        skills = extract_skills(job_title)
 
         return skills
 

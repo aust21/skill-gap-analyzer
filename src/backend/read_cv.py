@@ -18,12 +18,13 @@ def preprocess_text(text):
     return text
 
 def extract_skills(text, skill_list):
+    print("*"*10)
+    print(text, skill_list)
     doc = nlp(text)
     skills = set()
 
     for token in doc:
         if token.text.title() in skill_list:
-            # print(token.text)
             skills.add(token.text)
     return skills
 
