@@ -32,10 +32,16 @@ with DAG(
         provide_context=True
     )
 
-    task_2 = PythonOperator(
+    task_2= PythonOperator(
+        task_id="transform_data",
+        python_callable=tasks.transform_with_xcom,
+        provide_context=True
+    )
+
+    task_3 = PythonOperator(
         task_id="load_to_redis",
         python_callable=tasks.load_with_xcom,
         provide_context=True
     )
 
-    task_1 >> task_2
+    task_1 >> task_2 >> task_3

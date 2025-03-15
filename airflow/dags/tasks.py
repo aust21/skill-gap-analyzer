@@ -1,12 +1,10 @@
 import json, requests, os
-from airflow import DAG
-from airflow.decorators import task
-from airflow.exceptions import AirflowException
+from airflow.hooks.base import BaseHook
 from airflow.providers.postgres.hooks.postgres import PostgresHook
-from airflow.utils.dates import days_ago
 import pandas as pd
 from airflow.utils.log.logging_mixin import LoggingMixin
-from airflow.models import Variable
+import redis
+import numpy as np
 
 logger = LoggingMixin().log
 
@@ -17,8 +15,48 @@ def extract_data():
     logger.info("File successfully read")
     return file
 
+def transform_data(data):
+
+    result = data.copy()
+
+    for col in result.columns:
+        # Check if the column contains numpy arrays
+        if result[col].apply(lambda x: isinstance(x, np.ndarray)).any():
+            # Convert numpy arrays to lists
+            result[col] = result[col].apply(
+                lambda x: x.tolist() if isinstance(x, np.ndarray) else x
+                )
+
+        # Convert numpy numeric types to Python numeric types
+        if np.issubdtype(result[col].dtype, np.number):
+            result[col] = result[col].apply(
+                lambda x: x.item() if isinstance(x, np.generic) else x
+                )
+
+    return result
+
+
 def load_to_redis(data):
-    pass
+    conn = BaseHook.get_connection("redis")
+
+    try:
+        pool = redis.ConnectionPool(
+            host=conn.host, port=6379,
+            decode_responses=True
+        )
+
+        r = redis.Redis(connection_pool=pool)
+
+        with r.pipeline() as pipe:
+            for indx, row in data.iterrows():
+                key = f"sk:{indx}"
+                row = row.to_dict()
+                pipe.set(key, json.dumps(row))
+            pipe.execute()
+    except Exception as e:
+        logger.error(f"Something went wrong with redis: {e}", exc_info=True)
+    finally:
+        pool.close()
 
 def load(data):
     try:
@@ -80,9 +118,21 @@ def load(data):
         logger.info("Data loading operation complete")
 
 
-def load_with_xcom(**kwargs):
+def transform_with_xcom(**kwargs):
     ti = kwargs['ti']
     transformed_data = ti.xcom_pull(task_ids="extract_data")
+
+    if transformed_data is None:
+        raise ValueError("No transformed data found in XCom.")
+
+    ti.xcom_push(key="transformed_data", value=transformed_data)
+
+    transform_data(transformed_data)
+
+
+def load_with_xcom(**kwargs):
+    ti = kwargs['ti']
+    transformed_data = ti.xcom_pull(task_ids="transform_data", key="transformed_data")
 
     if transformed_data is None:
         raise ValueError("No transformed data found in XCom.")
