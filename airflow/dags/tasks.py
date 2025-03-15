@@ -15,33 +15,12 @@ def extract_data():
     logger.info("File successfully read")
     return file
 
-def transform_data(data):
-
-    result = data.copy()
-
-    for col in result.columns:
-        # Check if the column contains numpy arrays
-        if result[col].apply(lambda x: isinstance(x, np.ndarray)).any():
-            # Convert numpy arrays to lists
-            result[col] = result[col].apply(
-                lambda x: x.tolist() if isinstance(x, np.ndarray) else x
-                )
-
-        # Convert numpy numeric types to Python numeric types
-        if np.issubdtype(result[col].dtype, np.number):
-            result[col] = result[col].apply(
-                lambda x: x.item() if isinstance(x, np.generic) else x
-                )
-
-    return result
-
-
 def load_to_redis(data):
     conn = BaseHook.get_connection("redis")
 
     try:
         pool = redis.ConnectionPool(
-            host=conn.host, port=6379,
+            host=conn.host, port=conn.port,
             decode_responses=True
         )
 
@@ -49,6 +28,9 @@ def load_to_redis(data):
 
         with r.pipeline() as pipe:
             for indx, row in data.iterrows():
+                for key, value in row.items():
+                    if isinstance(value, np.ndarray):
+                        row[key] = value.tolist()
                 key = f"sk:{indx}"
                 row = row.to_dict()
                 pipe.set(key, json.dumps(row))
@@ -118,21 +100,9 @@ def load(data):
         logger.info("Data loading operation complete")
 
 
-def transform_with_xcom(**kwargs):
-    ti = kwargs['ti']
-    transformed_data = ti.xcom_pull(task_ids="extract_data")
-
-    if transformed_data is None:
-        raise ValueError("No transformed data found in XCom.")
-
-    ti.xcom_push(key="transformed_data", value=transformed_data)
-
-    transform_data(transformed_data)
-
-
 def load_with_xcom(**kwargs):
     ti = kwargs['ti']
-    transformed_data = ti.xcom_pull(task_ids="transform_data", key="transformed_data")
+    transformed_data = ti.xcom_pull(task_ids="extract_data")
 
     if transformed_data is None:
         raise ValueError("No transformed data found in XCom.")
