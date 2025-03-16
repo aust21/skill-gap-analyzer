@@ -13,16 +13,31 @@ def home():
     return render_template(
         "landing/landing.html", jobs=jobs)
 
+
+@views.route("/error")
+def error():
+    tag = request.args.get("tag", "resume")
+    return render_template("error.html", tag=tag)
+
+
 @views.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
     view = request.args.get("view", "dash")
     resume = request.files.get("resume")
     job_title = request.form.get("job")
+    tag = request.args.get("tag", "resume")
 
     # cursor, conn = job_source.connect_to_db()
     if request.method == "POST":
         if job_title:  # Store job title in session
             session["job_title"] = job_title
+
+        if not resume and not job_title:
+            return redirect(url_for("views.error", tag="r-t"))
+        if not resume:
+            return redirect(url_for("views.error", tag="resume"))
+        if not job_title:
+            return redirect(url_for("views.error", tag="title"))
         
         if resume:
             if not os.path.exists("uploads"):
