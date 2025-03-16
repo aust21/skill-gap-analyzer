@@ -1,10 +1,24 @@
-import json, requests, os
-from airflow.hooks.base import BaseHook
-from airflow.providers.postgres.hooks.postgres import PostgresHook
-import pandas as pd
-from airflow.utils.log.logging_mixin import LoggingMixin
-import redis
+import json
+import os
+
 import numpy as np
+import pandas as pd
+import redis
+from airflow.hooks.base import BaseHook
+from airflow.models import Variable
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+from airflow.utils.log.logging_mixin import LoggingMixin
+from sqlalchemy import text
+from sqlalchemy.engine import create_engine
+from sqlalchemy.orm import sessionmaker
+
+conf = {
+    'host': Variable.get("HOST", default_var=None),
+    'port': Variable.get("PORT", default_var=None),
+    'database': Variable.get("DB", default_var=None),
+    'user': Variable.get("USER", default_var=None),
+    'password': Variable.get("PASSWORD", default_var=None)
+}
 
 logger = LoggingMixin().log
 
@@ -32,6 +46,8 @@ def load_to_redis(data):
                     if isinstance(value, np.ndarray):
                         row[key] = value.tolist()
                 key = f"sk:{indx}"
+                if json.loads(r.get(key)):
+                    continue
                 row = row.to_dict()
                 pipe.set(key, json.dumps(row))
             pipe.execute()
@@ -40,63 +56,101 @@ def load_to_redis(data):
     finally:
         pool.close()
 
-def load(data):
+
+def load_to_postgres():
     try:
         logger.info("Connecting to postgres")
+        # Redis connection
+        conn = BaseHook.get_connection("redis")
+        pool = redis.ConnectionPool(
+            host=conn.host,
+            port=conn.port,
+            decode_responses=True
+        )
+        r = redis.Redis(connection_pool=pool)
+
+        # Postgres connection
         postgres_hook = PostgresHook(postgres_conn_id="POSTGRES_CONN_ID")
-        conn = postgres_hook.get_conn()
-        cursor = conn.cursor()
+        pg_conn = postgres_hook.get_conn()
+        cursor = pg_conn.cursor()
         logger.info("Connection successful")
 
-        # prefetch job titles to avoid duplicates
+        # Prefetch job titles to avoid duplicates
         cursor.execute("SELECT id, job_title FROM job_titles;")
-
-        # Get all rows
         rows = cursor.fetchall()
         existing_jobs = {row[1]: row[0] for row in rows} if rows else {}
 
-        # prepare to insert new jobs
-        new_jobs = [job.strip() for job in data["job_title"] if job
-                    not in
-                    existing_jobs]
+        # Prepare to collect new jobs and skills
+        new_jobs = set()
+        skill_records = []
 
-        logger.info("Inserting new jobs")
+        # Process Redis data
+        for key in r.scan_iter(match="sk:*"):
+            row = json.loads(r.get(key))
+
+            # Extract job title and skills from Redis data
+            job_title = row.get("job_title", "").strip()
+            skills = row.get("skills", [])
+
+            if job_title and job_title not in existing_jobs:
+                new_jobs.add(job_title)
+
+        # Insert new jobs
+        logger.info(f"Inserting {len(new_jobs)} new jobs")
         if new_jobs:
-            cursor.executemany(
-                "INSERT INTO job_titles (job_title) VALUES (%s) "
-                "ON CONFLICT (job_title) DO NOTHING RETURNING id, "
-                "job_title;", [(job,) for job in new_jobs]
-            )
+            for job in new_jobs:
+                cursor.execute(
+                    "INSERT INTO job_titles (job_title) VALUES (%s) "
+                    "ON CONFLICT (job_title) DO NOTHING RETURNING id, job_title;",
+                    (job,)
+                )
+                # Store new job title IDs
+                if cursor.description is not None:
+                    inserted_row = cursor.fetchone()
+                    if inserted_row:
+                        existing_jobs[inserted_row[1]] = inserted_row[0]
 
-            # Store new job title IDs
-            inserted_rows = []
-            if cursor.description is not None:
-                inserted_rows = cursor.fetchall()
-
-            for row in inserted_rows:
-                existing_jobs[row[1]] = row[0]
-
+        # Process skills after jobs are inserted
         logger.info("Preparing skill insert")
-        # prepare skill insert
-        skill_record = []
-        for record in data.to_dict(orient="records"):
-            title = record["job_title"]
-            job_title_id = existing_jobs.get(title.strip())
+        for key in r.scan_iter(match="sk:*"):
+            row = json.loads(r.get(key))
+
+            job_title = row.get("job_title", "").strip()
+            skills = row.get("skills", [])
+
+            job_title_id = existing_jobs.get(job_title)
             if not job_title_id:
                 continue
-            skill_record.extend([(job_title_id, skill) for skill in
-                                 record["skills"]])
-        if skill_record:
-            cursor.executemany(
-                "INSERT INTO job_skills (job_title_id, skill) VALUES (%s, "
-                "%s) "
-                "ON CONFLICT ON CONSTRAINT unique_job_skill DO NOTHING;", skill_record
-            )
-        conn.commit()
+
+            for skill in skills:
+                skill_records.append((job_title_id, skill))
+
+        # Insert skills in batches
+        if skill_records:
+            batch_size = 1000  # Adjust based on your needs
+            for i in range(0, len(skill_records), batch_size):
+                batch = skill_records[i:i + batch_size]
+                cursor.executemany(
+                    "INSERT INTO job_skills (job_title_id, skill) VALUES (%s, %s) "
+                    "ON CONFLICT ON CONSTRAINT unique_job_skill DO NOTHING;",
+                    batch
+                )
+                logger.info(f"Inserted batch of {len(batch)} skills")
+
+        pg_conn.commit()
+        logger.info(f"Successfully inserted {len(skill_records)} skill records")
 
     except Exception as e:
         logger.error(f"Failed to load data into postgres\nTraceback: {e}")
+        if 'pg_conn' in locals():
+            pg_conn.rollback()
     finally:
+        if 'cursor' in locals():
+            cursor.close()
+        if 'pg_conn' in locals():
+            pg_conn.close()
+        if 'r' in locals():
+            r.close()
         logger.info("Data loading operation complete")
 
 
