@@ -18,8 +18,6 @@ def preprocess_text(text):
     return text
 
 def extract_skills(text, skill_list):
-    print("*"*10)
-    print(text, skill_list)
     doc = nlp(text)
     skills = set()
 

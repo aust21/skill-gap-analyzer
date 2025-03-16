@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 import src.backend.read_cv as cv_reader
 import src.backend.source as job_source
+import src.backend.process as prc
 import os, sys
 import pandas as pd
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -29,7 +30,7 @@ def dashboard():
 
     # cursor, conn = job_source.connect_to_db()
     if request.method == "POST":
-        if job_title:  # Store job title in session
+        if job_title:
             session["job_title"] = job_title
 
         if not resume and not job_title:

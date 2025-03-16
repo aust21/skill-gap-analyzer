@@ -1,9 +1,11 @@
-import pandas as pd
+import json
+
 import psycopg2, os, sys, logging
-from sqlalchemy.orm.session import sessionmaker
-from sqlalchemy.engine import create_engine
+import redis
+from dotenv import load_dotenv
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
+load_dotenv()
 # TODO: Load skills from an API or job source data
 
 USER = os.getenv("user")
@@ -51,33 +53,27 @@ def create_data(cursor, conn, file):
 
 def extract_skills(job_title):
     try:
-        conf = {
-            'host': os.getenv("HOST"),
-            'port': os.getenv("PORT"),
-            'database': os.getenv("DB"),
-            'user': os.getenv("USER"),
-            'password': os.getenv("PASSWORD")
-        }
-        engine = create_engine(
-            "postgresql://postgres:{password}@db.czgahlgpbgwzhjsmtpuy"
-            ".supabase.co:5432/postgres".format(
-                **conf
-            )
+        pool = redis.ConnectionPool(
+            decode_responses=True,
+            host=os.getenv("REDIS_HOST"),
+            port=os.getenv("REDIS_PORT"),
+            password=os.getenv("REDIS_PASSWORD"),
+            username="default"
         )
-        session = sessionmaker(bind=engine)
-        session_obj = session()
-        logging.info("Connected to database")
+        r = redis.Redis(connection_pool=pool)
 
-        results = session_obj.execute(
-            """
-            SELECT DISTINCT s.skill
-            FROM job_skills s
-            JOIN job_titles j ON s.job_title_id = j.id
-            WHERE LOWER(j.job_title) = LOWER(:job_title);
-        """, {"job_title": job_title}
-            )
-        skills = results.fetchall()
-        return [skill[0] for skill in skills]
+        key = f"sk:{job_title.title()}"
+        data = r.get(key)
+
+        if not data:
+            return ["Skill not yet available"]
+        # print("-" * 50)
+        # print(key)
+        # print(data)
+        # print("-" * 50)
+        data = json.loads(data)
+        return data["skills"]
+
     except Exception as e:
         logging.error(
             f"Something happened with extract jobs {e}"

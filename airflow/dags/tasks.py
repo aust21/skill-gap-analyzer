@@ -35,7 +35,9 @@ def load_to_redis(data):
     try:
         pool = redis.ConnectionPool(
             host=conn.host, port=conn.port,
-            decode_responses=True
+            decode_responses=True,
+            password=Variable.get("REDIS_PASSWORD"),
+            username="default"
         )
 
         r = redis.Redis(connection_pool=pool)
@@ -45,10 +47,10 @@ def load_to_redis(data):
                 for key, value in row.items():
                     if isinstance(value, np.ndarray):
                         row[key] = value.tolist()
-                key = f"sk:{indx}"
-                if json.loads(r.get(key)):
-                    continue
                 row = row.to_dict()
+                key = f"sk:{row['job_title']}"
+                if r.get(key):
+                    continue
                 pipe.set(key, json.dumps(row))
             pipe.execute()
     except Exception as e:
@@ -65,7 +67,9 @@ def load_to_postgres():
         pool = redis.ConnectionPool(
             host=conn.host,
             port=conn.port,
-            decode_responses=True
+            decode_responses=True,
+            password=Variable.get("REDIS_PASSWORD"),
+            username="default"
         )
         r = redis.Redis(connection_pool=pool)
 
