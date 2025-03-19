@@ -18,11 +18,22 @@ def preprocess_text(text):
     return text
 
 def extract_skills(text, skill_list):
+
+    # print("*"*50)
+    # print(skill_list)
+    # print("*" * 50)
+    # print(text)
+    # print("*" * 50)
     doc = nlp(text)
     skills = set()
 
     for token in doc:
-        if token.text.title() in skill_list:
+        word = token.text.lower()
+        # print(word)
+        if (word.title() in skill_list
+                or word in skill_list
+                or word.capitalize() in skill_list
+                or word.upper() in skill_list):
             skills.add(token.text)
     return skills
 

@@ -27,7 +27,7 @@
     <li>
       <i class="bx"></i>
       <span class="text">
-        <h3>{{ missing_skills|length }}</h3>
+        <h3>{{ missing }}</h3>
         <p>missing skills</p>
       </span>
     </li>
@@ -48,7 +48,7 @@
 <script>
   window.chartData = {
     matchedSkills: {{ matched_skills|length }},
-    missingSkills: {{ missing_skills|length }}
+    missingSkills: {{ missing }}
   };
 </script>
 <script src="{{url_for('static', filename='js/dash.js')}}"></script>

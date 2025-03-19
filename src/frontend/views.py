@@ -60,6 +60,7 @@ def dashboard():
             # Store results in session
             session["matched_skills"] = list(matched_skills)
             session["missing_skills"] = list(set(job_skills) - set(matched_skills))
+            session["missing"] = len(job_skills) - len(matched_skills)
 
             return redirect(url_for("views.dashboard"))
 
@@ -68,8 +69,14 @@ def dashboard():
     
     matched_skills = session.get("matched_skills", [])
     missing_skills = session.get("missing_skills", [])
+    missing = session.get("missing", [])
 
-    return render_template("dash/dashboard.html", matched_skills=matched_skills, missing_skills=missing_skills, job=job_title, view=view)
+    return render_template(
+        "dash/dashboard.html",
+        matched_skills=matched_skills,
+        missing_skills=missing_skills,
+        missing = missing,
+        job=job_title, view=view)
 
 
 
