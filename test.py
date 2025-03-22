@@ -1,25 +1,21 @@
 import os
-import requests
-import psycopg2, os, sys, logging
-from sqlalchemy.orm.session import sessionmaker
-from sqlalchemy.engine import create_engine
 from dotenv import load_dotenv
+from groq import Groq
 
 load_dotenv()
+print(os.environ.get("GROQ_API_KEY"))
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+)
 
-url = "https://jsearch.p.rapidapi.com/search"
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Explain the importance of fast language models",
+        }
+    ],
+    model="llama-3.3-70b-versatile",
+)
 
-querystring = {
-    "query":"developer jobs in south africa",
-    "page":"1",
-    "num_pages":"1","country":"za","date_posted":"all"
-}
-API_KEY = os.getenv("RAPID_API")
-headers = {
-	"x-rapidapi-key": API_KEY,
-	"x-rapidapi-host": "jsearch.p.rapidapi.com"
-}
-
-response = requests.get(url, headers=headers, params=querystring)
-
-print(response.json())
+print(chat_completion.choices[0].message.content)
