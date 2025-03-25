@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 import src.backend.read_cv as cv_reader
 import src.backend.source as job_source
+import src.backend.main as process_skills
 import src.backend.process as prc
 import os, sys
 import pandas as pd
@@ -48,14 +49,15 @@ def dashboard():
             resume_path = f"uploads/{resume.filename}"
             resume.save(resume_path)
 
-            # Extract text from the resume
-            extracted_text = cv_reader.read_resume(resume_path)
-            clean_text = cv_reader.preprocess_text(extracted_text)
-            # job_source.create_data()
-            job_skills = job_source.extract_skills(job_title)
+            skills = process_skills.run(job_title, resume_path)
 
             # Extract skills from resume
-            matched_skills = cv_reader.extract_skills(clean_text, job_skills)
+            matched_skills, job_skills = skills[0], skills[1]
+
+            # print("**********************matched skills***********************")
+            # print(skills[0])
+            # print("**********************job skills***********************")
+            # print(skills[1])
 
             # Store results in session
             session["matched_skills"] = list(matched_skills)
