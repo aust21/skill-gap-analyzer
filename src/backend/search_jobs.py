@@ -9,7 +9,9 @@ API_HOST = os.getenv("RAPID_API_HOST")
 
 def search(job_title: str):
     url = f"https://remotive.com/api/remote-jobs?category={job_title}"
-
+    data = requests.get(url)
+    print(data.json())
+    
 
 def get_descriptions(job_id: str):
     url = "https://linkedin-data-api.p.rapidapi.com/get-job-details"
@@ -25,5 +27,5 @@ def get_descriptions(job_id: str):
 
     return response.json()["data"]["description"]
 
-# search("data engineer")
+search("data engineer")
 # get_descriptions("4161827138")
