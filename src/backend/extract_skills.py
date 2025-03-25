@@ -1,7 +1,6 @@
 import os, redis
 from dotenv import load_dotenv
 from groq import Groq
-from traits.trait_types import false
 
 load_dotenv()
 

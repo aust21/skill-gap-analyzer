@@ -12,4 +12,4 @@ def run(job_title, resume_path):
         matched_skills = cv_reader.extract_skills(clean_text, job_skills)
         return matched_skills, job_skills
     print(f"********skill: {job_title} not found***********")
-    return ["No matched skill"], ["NAN"]
+    return ["No matched skill"], []
