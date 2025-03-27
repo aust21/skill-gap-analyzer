@@ -10,7 +10,10 @@ API_HOST = os.getenv("RAPID_API_HOST")
 def search(job_title: str):
     url = f"https://remotive.com/api/remote-jobs?category={job_title}"
     data = requests.get(url)
-    print(data.json())
+    jobs_data = data.json()
+    jobs = jobs_data["jobs"]
+    for job in jobs:
+        print(job["title"])
     
 
 def get_descriptions(job_id: str):
