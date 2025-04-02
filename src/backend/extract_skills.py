@@ -29,7 +29,7 @@ def get_skills_from_groq(job_title: str, description: str):
     json_data = json.loads(data)
 
     # Pretty-print the parsed JSON data
-    print(json.dumps(json_data, indent=4))
+    # print(json.dumps(json_data, indent=4))
 
     # Return the parsed data if needed
     return json_data
@@ -52,7 +52,7 @@ def skills_exists(job_title: str):
         return True
     return False
 
-# job_id = job_searcher.search("data engineer")
-# job_description = job_searcher.get_descriptions(job_id)
-#
+job_id = job_searcher.search("data engineer")
+job_description = job_searcher.get_descriptions(job_id)
+
 # get_skills_from_groq("data engineer", job_description)
