@@ -131,7 +131,7 @@ def load_to_postgres():
 
         # Insert skills in batches
         if skill_records:
-            batch_size = 1000  # Adjust based on your needs
+            batch_size = 1000
             for i in range(0, len(skill_records), batch_size):
                 batch = skill_records[i:i + batch_size]
                 cursor.executemany(
