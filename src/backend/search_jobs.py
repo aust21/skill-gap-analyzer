@@ -12,8 +12,9 @@ def search(job_title: str):
     data = requests.get(url)
     jobs_data = data.json()
     jobs = jobs_data["jobs"]
+    job = jobs[0]
     # print(jobs[0]["id"])
-    return jobs[0]["id"]
+    return (job["id"], job["description"])
     
 
 def get_descriptions(job_id: str):
@@ -28,8 +29,8 @@ def get_descriptions(job_id: str):
 
     response = requests.get(url, headers=headers, params=querystring)
 
-    print(response.json()["data"]["description"])
+    print(response.json())
     return response.json()["data"]["description"]
 
-# search("data engineer")
-# get_descriptions("4161827138")
+id = search("data engineer")
+get_descriptions(id[0])
