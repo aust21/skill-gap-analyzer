@@ -32,5 +32,5 @@ def get_descriptions(job_id: str):
     print(response.json())
     return response.json()["data"]["description"]
 
-id = search("data engineer")
-get_descriptions(id[0])
+# id = search("data engineer")
+# get_descriptions(id[0])

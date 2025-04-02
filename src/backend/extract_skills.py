@@ -52,7 +52,7 @@ def skills_exists(job_title: str):
         return True
     return False
 
-job_id = job_searcher.search("data engineer")
-job_description = job_searcher.get_descriptions(job_id[0])
-
-get_skills_from_groq("data engineer", job_description)
+# job_id = job_searcher.search("data engineer")
+# job_description = job_searcher.get_descriptions(job_id[0])
+#
+# get_skills_from_groq("data engineer", job_description)
