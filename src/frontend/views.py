@@ -65,7 +65,7 @@ def dashboard():
     missing = session.get("missing", [])
 
     return render_template(
-        "dash/dashboard.html",
+        "dash/index.html",
         matched_skills=matched_skills,
         missing_skills=missing_skills,
         missing = missing,

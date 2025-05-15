@@ -1,96 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skill Gap Analyser | Dashboard</title>
-    <link
-      rel="shortcut icon"
-      href="{{ url_for('static', filename='assets/logo.png') }}"
-      type="image/x-icon"
+<section class="py-3 px-16">
+  <h1 class="text-center font-bold text-5xl">Dashboard</h1>
+  <div class="mx-auto">
+    <img
+      src="{{url_for('static', filename='assets/reb.png')}}"
+      alt=""
+      class="w-[20rem] mx-auto"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link
-      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/dash.css')}}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/output.css')}}"
-    />
-  </head>
-  <body>
-    <main>
-      <section id="sidebar" class="">
-        <a href="{{url_for('views.home')}}" class="brand">
-          <img
-            src="{{url_for('static', filename='assets/logo.png')}}"
-            alt="logo"
-            class="w-[2.5rem]"
-            style="margin-left: 0.6rem"
-          />
-          <span style="margin-left: 1rem">Dashboard</span>
-        </a>
-        <ul class="side-menu top">
-          <li class="{% if view == 'dash' %}active{% endif %}">
-            <a href="{{ url_for('views.dashboard', view='dash') }}">
-              <i class="bx bxs-dashboard"></i>
-              <span class="text">Dashboard</span>
-            </a>
-          </li>
-          <li class="{% if view == 'insights' %}active{% endif %}">
-            <a href="{{ url_for('views.dashboard', view='insights') }}">
-              <i class="bx bxs-analyse"></i>
-              <span class="text">Insights</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <!-- SIDEBAR -->
-
-      <!-- CONTENT -->
-      <section id="content">
-        <!-- NAVBAR -->
-        <nav>
-          <i class="bx bx-menu"></i>
-        </nav>
-
-        <main>
-          {% if view=="insights" %} {% include 'dash/analytics.html' %} {% else
-          %} {% include 'dash/default.html' %} {% endif %}
-        </main>
-        <!-- MAIN -->
-      </section>
-      <!-- CONTENT -->
-    </main>
-
-    <script>
-      const allSideMenu = document.querySelectorAll(
-        "#sidebar .side-menu.top li a"
-      );
-
-      allSideMenu.forEach((item) => {
-        const li = item.parentElement;
-
-        item.addEventListener("click", function () {
-          allSideMenu.forEach((i) => {
-            i.parentElement.classList.remove("active");
-          });
-          li.classList.add("active");
-        });
-      });
-
-      // TOGGLE SIDEBAR
-      const menuBar = document.querySelector("#content nav .bx.bx-menu");
-      const sidebar = document.getElementById("sidebar");
-
-      menuBar.addEventListener("click", function () {
-        sidebar.classList.toggle("hide");
-      });
-    </script>
-  </body>
-</html>
+  </div>
+  <p class="text-center font-semibold text-sm text-gray-300">The ui is being rebuilt. Please visit sooooon!</p>
+</section>

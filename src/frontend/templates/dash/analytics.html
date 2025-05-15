@@ -1,54 +1,13 @@
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/chats.css') }}"
-/>
-<div class="head-title">
-  <div class="left">
-    <h1>Analytics</h1>
+<section class="py-3 px-16">
+  <h1 class="text-center font-bold text-5xl">Analytics</h1>
+  <div class="mx-auto">
+    <img
+      src="{{url_for('static', filename='assets/sh.png')}}"
+      alt=""
+      class="w-[20rem] mx-auto"
+    />
   </div>
-</div>
-
-<div class="container">
-  <ul class="box-info">
-    <li>
-      <i class="bx"></i>
-      <span class="text">
-        <h3>Analytics for</h3>
-        <p>{{ job }}</p>
-      </span>
-    </li>
-    <li>
-      <i class="bx bxs-hard-hat"></i>
-      <span class="text">
-        <h3>{{ matched_skills|length }}</h3>
-        <p>matched skills</p>
-      </span>
-    </li>
-    <li>
-      <i class="bx"></i>
-      <span class="text">
-        <h3>{{ missing }}</h3>
-        <p>missing skills</p>
-      </span>
-    </li>
-  </ul>
-</div>
-<div id="charts">
-  <!-- Pie Chart on the left -->
-  <div class="">
-    <canvas id="skillsChart"></canvas>
-  </div>
-
-  <!-- Bar Graph on the right -->
-  <div class="">
-    <canvas id="barChart"></canvas>
-  </div>
-</div>
-
-<script>
-  window.chartData = {
-    matchedSkills: {{ matched_skills|length }},
-    missingSkills: {{ missing }}
-  };
-</script>
-<script src="{{url_for('static', filename='js/dash.js')}}"></script>
+  <p class="text-center font-semibold text-sm text-gray-300">
+    What the first guy said! I wouldn't bother the next guy if I was you!
+  </p>
+</section>
