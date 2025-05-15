@@ -1,58 +1,37 @@
+import logging
 import os, redis, json
 from dotenv import load_dotenv
-from groq import Groq
-import src.backend.search_jobs as job_searcher
+from google import genai
+
+from constants.genai_schema import GenAISchema
+from constants.main import prompt
+from src.backend.read_cv import read_resume, preprocess_text
 
 load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-def get_skills_from_groq(job_title: str, description: str):
-    client = Groq(
-        api_key=os.environ.get("GROQ_API_KEY"),
+log = logging.getLogger(__name__)
+
+
+def extract_skills(job_title, file_path):
+    client = genai.Client(api_key=GEMINI_API_KEY)
+    resume_text = read_resume(file_path)
+    clean_text = preprocess_text(resume_text)
+    prompt_to_generate = prompt(job_title, clean_text)
+    response = client.models.generate_content(
+        model="gemini-2.0-flash-001",
+        contents=prompt_to_generate,
+        config={
+            "response_mime_type": "application/json",
+            "response_schema": list[GenAISchema],
+        },
     )
+    try:
+        return_val = json.loads(response.text)
+        print(return_val[0])
+        return return_val[0]
+    except Exception as err:
+        log.error(f"Error: {err}")
+        return None
 
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": f"Can you extract the job skills for"
-                           f" a {job_title} in the following "
-                           f"description. I need only soft skills and "
-                           f"technical skills, nothing else. Please give me "
-                           f"the skills in json "
-                           f"format.\nHere is the job description:\
-                           n{description}",
-            }
-        ],
-        model="llama-3.3-70b-versatile",
-    )
-    data = chat_completion.choices[0].message.content
-    json_data = json.loads(data)
-
-    # Pretty-print the parsed JSON data
-    # print(json.dumps(json_data, indent=4))
-
-    # Return the parsed data if needed
-    return json_data
-
-
-def skills_exists(job_title: str):
-    conn = redis.Redis(
-        host=os.getenv("REDIS_HOST"),
-        port=os.getenv("REDIS_PORT"),
-        decode_responses=True,
-        password=os.getenv("REDIS_PASSWORD"),
-        username="default"
-    )
-    job_title = job_title.title()
-    key = f"sk:{job_title}"
-
-    data = conn.get(key)
-
-    if data:
-        return True
-    return False
-
-# job_id = job_searcher.search("data engineer")
-# job_description = job_searcher.get_descriptions(job_id[0])
-#
-# get_skills_from_groq("data engineer", job_description)
+# extract_skills("data engineer", "./Austin_Ngobeni_CV.pdf")

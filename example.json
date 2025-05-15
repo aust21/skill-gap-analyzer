@@ -1,0 +1,86 @@
+{
+  "resume_skills": [
+    "Python",
+    "Java",
+    "SQL",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "TailwindCSS",
+    "Flask",
+    "Git",
+    "GitLab",
+    "GitHub",
+    "Airflow",
+    "Docker",
+    "Redis",
+    "PostgreSQL",
+    "AWS",
+    "Google Cloud Storage",
+    "Supabase",
+    "Adaptability",
+    "Organizational Skills",
+    "Leadership",
+    "Mentorship",
+    "Pandas",
+    "Kafka",
+    "PySpark"
+  ],
+  "trending_skills": [
+    "Cloud Computing (AWS, Azure, GCP)",
+    "Data Warehousing (Snowflake, BigQuery)",
+    "ETL Tools (Informatica, Talend)",
+    "Data Streaming (Kafka, Flink)",
+    "Big Data Technologies (Spark, Hadoop)",
+    "SQL",
+    "Python",
+    "Data Modeling",
+    "Data Governance",
+    "Data Security",
+    "DevOps",
+    "CI/CD",
+    "Containerization (Docker, Kubernetes)",
+    "Data Visualization (Tableau, Power BI)",
+    "Machine Learning (MLOps)"
+  ],
+  "strong_points": [
+    "Proficient in Python, SQL, and various web development technologies.",
+    "Experience with ETL pipelines and data streaming using tools like Kafka, Redis, and PostgreSQL.",
+    "Familiar with cloud platforms such as AWS and Google Cloud Storage.",
+    "Experience with Docker and Apache Airflow.",
+    "Demonstrated leadership and mentorship skills."
+  ],
+  "missing_critical_skills": [
+    "In-depth knowledge of cloud data warehousing solutions (Snowflake, BigQuery).",
+    "Experience with enterprise-level ETL tools (Informatica, Talend).",
+    "Advanced knowledge of data governance and security practices.",
+    "Experience with DevOps and CI/CD pipelines.",
+    "Experience with container orchestration tools like Kubernetes."
+  ],
+  "tools_to_learn": [
+    "Snowflake",
+    "BigQuery",
+    "Informatica",
+    "Talend",
+    "Kubernetes",
+    "Tableau",
+    "Power BI",
+    "MLOps tools"
+  ],
+  "certification_suggestions": [
+    "AWS Certified Data Engineer – Associate",
+    "Google Cloud Certified Professional Data Engineer",
+    "Snowflake SnowPro Core Certification",
+    "Certified Data Management Professional (CDMP)",
+    "Databricks Certified Associate Developer for Apache Spark"
+  ],
+  "resume_strength": "The resume showcases a strong foundation in Python, SQL, ETL pipelines, and cloud technologies. The candidate also has experience in leadership and mentorship, which are valuable assets.",
+  "career_insights": "To excel as a data engineer, focus on strengthening cloud data warehousing skills and gaining experience with enterprise-level ETL tools. Emphasize DevOps practices and CI/CD pipelines to improve data delivery and automation. Consider obtaining relevant certifications to validate your expertise.",
+  "recommendations": [
+    "Deepen your knowledge of cloud data warehousing solutions like Snowflake or BigQuery.",
+    "Gain hands-on experience with enterprise-level ETL tools such as Informatica or Talend.",
+    "Explore DevOps practices and CI/CD pipelines to improve data delivery and automation.",
+    "Consider obtaining relevant certifications to validate your expertise and enhance your credibility.",
+    "Contribute to open-source projects or build personal projects to showcase your skills and experience."
+  ]
+}

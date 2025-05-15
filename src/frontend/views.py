@@ -29,7 +29,6 @@ def dashboard():
     job_title = request.form.get("job")
     tag = request.args.get("tag", "resume")
 
-    # cursor, conn = job_source.connect_to_db()
     if request.method == "POST":
         if job_title:
             session["job_title"] = job_title
@@ -49,20 +48,12 @@ def dashboard():
             resume_path = f"uploads/{resume.filename}"
             resume.save(resume_path)
 
-            skills = process_skills.run(job_title, resume_path)
 
-            # Extract skills from resume
-            matched_skills, job_skills = skills[0], skills[1]
-
-            # print("**********************matched skills***********************")
-            # print(skills[0])
-            # print("**********************job skills***********************")
-            # print(skills[1])
 
             # Store results in session
-            session["matched_skills"] = list(matched_skills)
-            session["missing_skills"] = list(set(job_skills) - set(matched_skills))
-            session["missing"] = len(job_skills) - len(matched_skills)
+            # session["matched_skills"] = list(matched_skills)
+            # session["missing_skills"] = list(set(job_skills) - set(matched_skills))
+            # session["missing"] = len(job_skills) - len(matched_skills)
 
             return redirect(url_for("views.dashboard"))
 
