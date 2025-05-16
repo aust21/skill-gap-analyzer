@@ -8,6 +8,12 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/output.css') }}"
     />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/chats.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <header class="py-8">
@@ -66,5 +72,7 @@
       'analytics' %} {% include 'dash/analytics.html' %} {% else %} {% include
       'dash/recommendations.html' %} {% endif %}
     </menu>
+
+    <script src="{{url_for('static', filename='js/dash.js')}}"></script>
   </body>
 </html>

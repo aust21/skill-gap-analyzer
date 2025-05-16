@@ -1,87 +1,58 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const ctx = document.getElementById("skillsChart").getContext("2d");
-  const barCtx = document.getElementById("barChart").getContext("2d");
+const ctx = document.getElementById("skillsChart").getContext("2d");
 
-  const matchedSkills = window.chartData.matchedSkills;
-  const missingSkills = window.chartData.missingSkills;
-  const totalSkills = matchedSkills + missingSkills;
-
-  const matchedPercentage = ((matchedSkills / totalSkills) * 100).toFixed(1);
-  const missingPercentage = ((missingSkills / totalSkills) * 100).toFixed(1);
-
-  // Doughnut chart (Pie chart)
-  new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: ["Matched Skills", "Missing Skills"],
-      datasets: [
-        {
-          data: [matchedSkills, missingSkills],
-          backgroundColor: [
-            "rgba(34, 197, 94, 0.8)", // green
-            "rgba(239, 68, 68, 0.8)", // red
-          ],
-          borderColor: ["rgba(34, 197, 94, 1)", "rgba(239, 68, 68, 1)"],
-          borderWidth: 1,
-        },
-      ],
+new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: [
+      "SQL",
+      "Typescript",
+      "Python",
+      "AWS",
+      "Docker",
+      "Machine Learning",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "GraphQL",
+      "Kubernetes",
+    ],
+    datasets: [
+      {
+        label: "Market Demand",
+        data: [90, 80, 85, 70, 75, 70, 65, 60, 60, 50, 45],
+        backgroundColor: "rgba(150, 150, 255, 0.5)",
+        borderRadius: 4,
+      },
+      {
+        label: "In Your Resume",
+        data: [90, 0, 85, 0, 0, 0, 0, 0, 0, 0, 0], // Show only the skills you have
+        backgroundColor: "#8000ff",
+        borderRadius: 4,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "bottom",
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        title: {
+          display: true,
+          text: "Market Demand",
         },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.label || "";
-              const value = context.parsed || 0;
-              const percentage = ((value / totalSkills) * 100).toFixed(1);
-              return `${label}: ${value} (${percentage}%)`;
-            },
-          },
+      },
+      x: {
+        ticks: {
+          maxRotation: 45,
+          minRotation: 45,
         },
       },
     },
-  });
-
-  // Bar chart
-  new Chart(barCtx, {
-    type: "bar",
-    data: {
-      labels: ["Matched Skills", "Missing Skills"],
-      datasets: [
-        {
-          label: "Skills",
-          data: [matchedSkills, missingSkills],
-          backgroundColor: [
-            "rgba(34, 197, 94, 0.8)", // green
-            "rgba(239, 68, 68, 0.8)", // red
-          ],
-          borderColor: ["rgba(34, 197, 94, 1)", "rgba(239, 68, 68, 1)"],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const value = context.raw;
-              const percentage = ((value / totalSkills) * 100).toFixed(1);
-              return `${value} (${percentage}%)`;
-            },
-          },
-        },
-      },
-    },
-  });
+  },
 });

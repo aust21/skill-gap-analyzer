@@ -1,13 +1,494 @@
-<section class="py-3 px-16">
-  <h1 class="text-center font-bold text-5xl">Analytics</h1>
-  <div class="mx-auto">
-    <img
-      src="{{url_for('static', filename='assets/sh.png')}}"
-      alt=""
-      class="w-[20rem] mx-auto"
-    />
+<div class="container mx-auto px-4 py-8">
+  <!-- Analytics Overview -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h2 class="text-xl font-semibold mb-6">Detailed Skills Analytics</h2>
+
+    <!-- Filter Options -->
+    <div class="flex flex-wrap gap-4 mb-6">
+      <div>
+        <label
+          for="timeframe"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Timeframe</label
+        >
+        <select
+          id="timeframe"
+          class="bg-white border border-gray-300 rounded-md px-3 py-2 text-sm"
+        >
+          <option value="last-30-days">Last 30 days</option>
+          <option value="last-90-days">Last 90 days</option>
+          <option value="last-6-months">Last 6 months</option>
+          <option value="last-year">Last year</option>
+        </select>
+      </div>
+      <div>
+        <label
+          for="job-category"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Job Category</label
+        >
+        <select
+          id="job-category"
+          class="bg-white border border-gray-300 rounded-md px-3 py-2 text-sm"
+        >
+          <option value="all">All Categories</option>
+          <option value="tech">Technology</option>
+          <option value="finance">Finance</option>
+          <option value="healthcare">Healthcare</option>
+          <option value="marketing">Marketing</option>
+        </select>
+      </div>
+      <div>
+        <label
+          for="location"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Location</label
+        >
+        <select
+          id="location"
+          class="bg-white border border-gray-300 rounded-md px-3 py-2 text-sm"
+        >
+          <option value="all">All Locations</option>
+          <option value="us">United States</option>
+          <option value="eu">Europe</option>
+          <option value="asia">Asia</option>
+          <option value="remote">Remote</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div class="bg-dashboard-gray p-4 rounded-lg">
+        <h3 class="font-medium mb-4">Skills Demand Trend</h3>
+        <div class="h-80">
+          <canvas id="skillsTrendChart"></canvas>
+        </div>
+      </div>
+      <div class="bg-dashboard-gray p-4 rounded-lg">
+        <h3 class="font-medium mb-4">Your Skills vs. Market Demand</h3>
+        <div class="h-80">
+          <canvas id="skillsComparisonChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Charts -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-dashboard-gray p-4 rounded-lg">
+        <h3 class="font-medium mb-4">Top Skills by Industry</h3>
+        <div class="h-60">
+          <canvas id="industrySkillsChart"></canvas>
+        </div>
+      </div>
+      <div class="bg-dashboard-gray p-4 rounded-lg">
+        <h3 class="font-medium mb-4">Skill Growth Rate</h3>
+        <div class="h-60">
+          <canvas id="skillGrowthChart"></canvas>
+        </div>
+      </div>
+      <div class="bg-dashboard-gray p-4 rounded-lg">
+        <h3 class="font-medium mb-4">Skill Distribution</h3>
+        <div class="h-60">
+          <canvas id="skillDistributionChart"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
-  <p class="text-center font-semibold text-sm text-gray-300">
-    What the first guy said! I wouldn't bother the next guy if I was you!
-  </p>
-</section>
+
+  <!-- Detailed Analytics Table -->
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold">Detailed Skill Analysis</h2>
+      <div class="relative">
+        <input
+          type="text"
+          placeholder="Search skills..."
+          class="pl-8 pr-4 py-2 border border-gray-300 rounded-md"
+        />
+        <div
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Skill
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Category
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Market Demand
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Growth Rate
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Your Proficiency
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Gap
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          {% for skill in detailed_skills|default([]) %}
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">{{ skill.name }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ skill.category }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-24 bg-gray-200 rounded-full h-1.5 mr-2">
+                  <div
+                    class="bg-dashboard-blue h-1.5 rounded-full"
+                    style="width: {{ skill.demand_percentage }}%"
+                  ></div>
+                </div>
+                <span>{{ skill.demand_percentage }}%</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              {% if skill.growth_rate > 10 %}
+              <span class="text-dashboard-success"
+                >+{{ skill.growth_rate }}%</span
+              >
+              {% elif skill.growth_rate < 0 %}
+              <span class="text-dashboard-danger"
+                >{{ skill.growth_rate }}%</span
+              >
+              {% else %}
+              <span>{{ skill.growth_rate }}%</span>
+              {% endif %}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-24 bg-gray-200 rounded-full h-1.5 mr-2">
+                  <div
+                    class="bg-dashboard-warning h-1.5 rounded-full"
+                    style="width: {{ skill.your_proficiency }}%"
+                  ></div>
+                </div>
+                <span>{{ skill.your_proficiency }}%</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              {% if skill.gap > 0 %}
+              <span class="text-dashboard-danger">+{{ skill.gap }}%</span>
+              {% elif skill.gap < 0 %}
+              <span class="text-dashboard-success">{{ skill.gap }}%</span>
+              {% else %}
+              <span>0%</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between">
+      <div class="text-sm text-gray-500">
+        Showing <span class="font-medium">1</span> to
+        <span class="font-medium">10</span> of
+        <span class="font-medium">20</span> skills
+      </div>
+      <div class="flex space-x-2">
+        <button
+          class="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <button
+          class="px-3 py-1 bg-dashboard-blue text-white rounded-md text-sm"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Skills Trend Chart
+    const trendCtx = document
+      .getElementById("skillsTrendChart")
+      .getContext("2d");
+    const trendChart = new Chart(trendCtx, {
+      type: "line",
+      data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        datasets: [
+          {
+            label: "Python",
+            data: [65, 68, 70, 72, 75, 78],
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37, 99, 235, 0.1)",
+            tension: 0.4,
+            fill: true,
+          },
+          {
+            label: "JavaScript",
+            data: [70, 72, 71, 73, 72, 75],
+            borderColor: "#f59e0b",
+            backgroundColor: "rgba(245, 158, 11, 0.1)",
+            tension: 0.4,
+            fill: true,
+          },
+          {
+            label: "Data Analysis",
+            data: [55, 60, 65, 70, 75, 80],
+            borderColor: "#10b981",
+            backgroundColor: "rgba(16, 185, 129, 0.1)",
+            tension: 0.4,
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: {
+              display: true,
+              text: "Demand (%)",
+            },
+          },
+        },
+      },
+    });
+
+    // Skills Comparison Chart
+    const comparisonCtx = document
+      .getElementById("skillsComparisonChart")
+      .getContext("2d");
+    const comparisonChart = new Chart(comparisonCtx, {
+      type: "bar",
+      data: {
+        labels: [
+          "Python",
+          "SQL",
+          "JavaScript",
+          "Data Analysis",
+          "Machine Learning",
+          "AWS",
+        ],
+        datasets: [
+          {
+            label: "Your Skills",
+            data: [80, 70, 60, 75, 65, 40],
+            backgroundColor: "#3b82f6",
+          },
+          {
+            label: "Market Demand",
+            data: [90, 80, 70, 85, 75, 60],
+            backgroundColor: "#f59e0b",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: {
+              display: true,
+              text: "Proficiency / Demand (%)",
+            },
+          },
+        },
+      },
+    });
+
+    // Industry Skills Chart
+    const industryCtx = document
+      .getElementById("industrySkillsChart")
+      .getContext("2d");
+    const industryChart = new Chart(industryCtx, {
+      type: "radar",
+      data: {
+        labels: [
+          "Technical",
+          "Soft Skills",
+          "Domain Knowledge",
+          "Tools",
+          "Frameworks",
+          "Languages",
+        ],
+        datasets: [
+          {
+            label: "Your Skills",
+            data: [70, 80, 60, 65, 75, 60],
+            backgroundColor: "rgba(59, 130, 246, 0.2)",
+            borderColor: "#3b82f6",
+            pointBackgroundColor: "#3b82f6",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "#3b82f6",
+          },
+          {
+            label: "Market Average",
+            data: [80, 70, 75, 85, 80, 75],
+            backgroundColor: "rgba(245, 158, 11, 0.2)",
+            borderColor: "#f59e0b",
+            pointBackgroundColor: "#f59e0b",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "#f59e0b",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scale: {
+          ticks: {
+            beginAtZero: true,
+            max: 100,
+          },
+        },
+      },
+    });
+
+    // Skill Growth Chart
+    const growthCtx = document
+      .getElementById("skillGrowthChart")
+      .getContext("2d");
+    const growthChart = new Chart(growthCtx, {
+      type: "bar",
+      data: {
+        labels: [
+          "AI/ML",
+          "Cloud Computing",
+          "Cybersecurity",
+          "Data Science",
+          "DevOps",
+        ],
+        datasets: [
+          {
+            label: "Growth Rate (%)",
+            data: [35, 28, 30, 25, 22],
+            backgroundColor: [
+              "#2563eb",
+              "#10b981",
+              "#f59e0b",
+              "#ef4444",
+              "#8b5cf6",
+            ],
+          },
+        ],
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: 40,
+          },
+        },
+      },
+    });
+
+    // Skill Distribution Chart
+    const distributionCtx = document
+      .getElementById("skillDistributionChart")
+      .getContext("2d");
+    const distributionChart = new Chart(distributionCtx, {
+      type: "doughnut",
+      data: {
+        labels: [
+          "Technical Skills",
+          "Soft Skills",
+          "Domain Knowledge",
+          "Tools & Frameworks",
+          "Languages",
+        ],
+        datasets: [
+          {
+            data: [40, 25, 15, 10, 10],
+            backgroundColor: [
+              "#2563eb",
+              "#10b981",
+              "#f59e0b",
+              "#ef4444",
+              "#8b5cf6",
+            ],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom",
+            align: "start",
+            labels: {
+              boxWidth: 12,
+            },
+          },
+        },
+      },
+    });
+  });
+</script>
