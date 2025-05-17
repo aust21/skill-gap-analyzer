@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Error | Deep Travel</title>
+    <title>Error | Skill Gap Analyzer</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/output.css') }}"
@@ -22,7 +22,7 @@
         <h1 class="font-semibold text-sm text-[#ff0000]">
           {% if tag == "resume" %} But we need your resume {% elif tag ==
           "title" %} But we need a job title {% elif tag=='r-t' %} But we need a
-          job title and job title {% endif %}
+          job title and resume {% endif %}
         </h1>
         <button
           class="mt-[2rem] mx-auto rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white w-[70%]"
