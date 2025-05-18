@@ -7,7 +7,7 @@ def prompt(job_title, resume_text):
     - A resume: {resume_text}
 
     Your tasks:
-    1. Extract the skills found in the resume.
+    1. Extract the trending skills found in the resume for {job_title}.
     2. Identify trending skills in the given job title.
     3. Compare both and provide:
        - Skills in common (strong points)

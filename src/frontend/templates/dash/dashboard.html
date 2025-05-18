@@ -49,13 +49,12 @@
         Skills in your resume that are trending
       </p>
 
-      <div class="flex items-center gap-3 mt-4">
+      <div class="flex flex-wrap overflow-x-hidden items-center gap-3 mt-4">
+        {% for skill in extracted_skills %}
         <p class="bg-green-400 rounded-3xl py-1 px-4 font-semibold text-sm">
-          python
+          {{skill}}
         </p>
-        <p class="bg-green-400 rounded-3xl py-1 px-4 font-semibold text-sm">
-          java
-        </p>
+        {% endfor %}
       </div>
     </div>
 
@@ -66,51 +65,34 @@
       <p class="text-sm font-semibold text-gray-400 mt-1">
         Trending skills not found in your resume
       </p>
-      <div class="flex items-center gap-3 mt-4">
+      <div class="flex flex-wrap overflow-x-hidden items-center gap-3 mt-4">
+        {% for skill in missing %}
         <p
           class="rounded-3xl py-1 px-4 font-semibold text-sm border border-red-400 text-red-400"
         >
-          python
+          {{skill}}
         </p>
-        <p
-          class="rounded-3xl py-1 px-4 font-semibold text-sm border border-red-400 text-red-400"
-        >
-          java
-        </p>
+        {% endfor %}
       </div>
     </div>
 
     <!-- recommendations -->
 
     <div class="border border-1 rounded-xl w-[30%] p-4">
-      <h4 class="font-semibold">Recommendations</h4>
+      <h4 class="font-semibold">Insights</h4>
       <p class="text-sm font-semibold text-gray-400 mt-1">
         Summary of suggestions to improve your resume
       </p>
       <div class="mt-4">
-        <h5 class="font-semibold text-sm mt-3">Add key trending skills</h5>
-        <p class="text-sm font-semibold text-gray-400">
-          Consider adding these top trending skills to you resume:
-        </p>
-
         <div class="mt-4">
-          <p class="font-semibold text-xs">
-            <span class="bg-blue-200 text-blue-500 py-1 px-3 mr-3 rounded-md"
-              >TypeScript</span
-            >(high demand)
+          <p class="font-semibold">
+            <span class="text-gray-500">{{insigths}}</span>
           </p>
-
-          <p class="font-semibold text-xs mt-3">
-            <span class="bg-blue-200 text-blue-500 py-1 px-3 mr-3 rounded-md"
-              >Docker</span
-            >(high demand)
-          </p>
-
-          <p class="font-semibold text-xs mt-3">
-            <span class="bg-blue-200 text-blue-500 py-1 px-3 mr-3 rounded-md"
-              >PostgreSQL</span
-            >(high demand)
-          </p>
+          <a
+            href="{{url_for('views.dashboard', view='recommendation')}}"
+            class="bg-blue-500 py-2 w-full font-semibold text-xs rounded-xl block text-center text-white mt-4"
+            >View Recommendations</a
+          >
         </div>
       </div>
     </div>
@@ -132,8 +114,4 @@
 
   const softVal = {{soft_points}}
   document.querySelector(".soft-progress-fill").style.width = `${parseInt(softVal)}%`
-
-  // const softVal = {{soft_points}}
-  // document.querySelector(".soft-progress-fill").style.width = `${parseInt(softVal)}%`
-
 </script>
