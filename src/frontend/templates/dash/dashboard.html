@@ -12,7 +12,9 @@
             <span class="font-semibold text-sm text-gray-600"
               >Overall Match</span
             >
-            <span class="font-semibold text-sm text-gray-600">{{match_points}}%</span>
+            <span class="font-semibold text-sm text-gray-600"
+              >{{match_points}}%</span
+            >
           </div>
           <div class="progress-bar w-full">
             <div class="progress-fill w-full"></div>
@@ -117,8 +119,21 @@
 
 <script>
   const progressValue = {{match_points}};
-  document.querySelector(".progress-fill").style.width = `${progressValue}%`;
-  document.querySelector(
-    ".match-container span:last-child"
-  ).textContent = `${progressValue}%`;
+  document.querySelector(".progress-fill").style.width = `${parseInt(progressValue)}%`;
+
+  const techVal = {{tech_points}}
+  document.querySelector(".tech-progress-fill").style.width = `${parseInt(techVal)}%`
+
+  const domainVal = {{domain_points}}
+  document.querySelector(".domain-progress-fill").style.width = `${parseInt(domainVal)}%`
+
+  const toolVal = {{tool_points}}
+  document.querySelector(".tool-progress-fill").style.width = `${parseInt(toolVal)}%`
+
+  const softVal = {{soft_points}}
+  document.querySelector(".soft-progress-fill").style.width = `${parseInt(softVal)}%`
+
+  // const softVal = {{soft_points}}
+  // document.querySelector(".soft-progress-fill").style.width = `${parseInt(softVal)}%`
+
 </script>
