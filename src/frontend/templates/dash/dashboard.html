@@ -12,7 +12,7 @@
             <span class="font-semibold text-sm text-gray-600"
               >Overall Match</span
             >
-            <span class="font-semibold text-sm text-gray-600">70%</span>
+            <span class="font-semibold text-sm text-gray-600">{{match_points}}%</span>
           </div>
           <div class="progress-bar w-full">
             <div class="progress-fill w-full"></div>
@@ -116,7 +116,7 @@
 </section>
 
 <script>
-  const progressValue = 70; // Your dynamic value
+  const progressValue = {{match_points}};
   document.querySelector(".progress-fill").style.width = `${progressValue}%`;
   document.querySelector(
     ".match-container span:last-child"

@@ -11,3 +11,8 @@ class GenAISchema(BaseModel):
     resume_strength: str
     career_insights: str
     recommendations: list[str]
+    overall_match: str
+    technical_skill_score: str
+    soft_skill_score: str
+    domain_knowledge:str
+    tool_score:str

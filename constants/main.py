@@ -16,6 +16,11 @@ def prompt(job_title, resume_text):
        - Recommended certifications
        - Career improvement suggestions
        - A short summary of the resume's strengths
+       - Overall match of job title and resume skills (out of 100)
+       - Technical skill score (out of 100)
+       - Soft skill score (out of 100)
+       - Domain knowledge (out of 100)
+       - Score of tools mentioned in the resume (out of 100)
 
     Respond with a valid JSON only. Do not include any explanation or text outside the JSON.
     This is the response format:
@@ -28,7 +33,12 @@ def prompt(job_title, resume_text):
       "certification_suggestions": [],
       "resume_strength": "",
       "career_insights": "",
-      "recommendations": []
+      "recommendations": [],
+      "overall_match":"",
+      "technical_skill_score":"",
+      "soft_skill_score":"",
+      "domain_knowledge":"",
+      "tool_score":""
     }}
     """
     return prompt

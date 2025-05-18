@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from src.backend.extract_skills import extract_skills
 import src.backend.read_cv as cv_reader
 import src.backend.source as job_source
 import src.backend.main as process_skills
@@ -47,29 +48,74 @@ def dashboard():
             # Save file temporarily
             resume_path = f"uploads/{resume.filename}"
             resume.save(resume_path)
+            
+            resume_analysis = extract_skills(job_title, resume_path)
 
+            skills_in_resume = resume_analysis["resume_skills"]
+            trending_skills = resume_analysis["trending_skills"]
+            technical_skill_points = resume_analysis["technical_skill_score"]
+            match_score = resume_analysis["overall_match"]
+            soft_skill_score = resume_analysis["soft_skill_score"]
+            domain_knowledge = resume_analysis["domain_knowledge"]
+            tool_score = resume_analysis["tool_score"]
+            strong_points = resume_analysis["strong_points"]
+            missing_critical_skills = resume_analysis["missing_critical_skills"]
+            tools_to_learn = resume_analysis["tools_to_learn"]
+            resume_strength = resume_analysis["resume_strength"]
+            career_insights = resume_analysis["career_insights"]
+            recommendations = resume_analysis["recommendations"]
 
-
-            # Store results in session
-            # session["matched_skills"] = list(matched_skills)
-            # session["missing_skills"] = list(set(job_skills) - set(matched_skills))
-            # session["missing"] = len(job_skills) - len(matched_skills)
+            session["skills_in_resume"] = skills_in_resume
+            session["trending_skills"] = trending_skills
+            session["technical_skill_points"] = technical_skill_points
+            session["match_score"] = match_score
+            session["soft_skill_score"] = soft_skill_score
+            session["domain_knowledge"] = domain_knowledge
+            session["tool_score"] = tool_score
+            session["strong_points"] = strong_points
+            session["missing_critical_skills"] = missing_critical_skills
+            session["tools_to_learn"] = tools_to_learn
+            session["resume_strength"] = resume_strength
+            session["career_insights"] = career_insights
+            session["recommendations"] = recommendations
 
             return redirect(url_for("views.dashboard"))
 
     # Retrieve job title from session if available
     job_title = session.get("job_title", "No Job Title Provided")
     
-    matched_skills = session.get("matched_skills", [])
-    missing_skills = session.get("missing_skills", [])
-    missing = session.get("missing", [])
+    extracted_sks = session.get("skills_in_resume", [])
+    trending_sks = session.get("trending_skills", [])
+    missing = session.get("missing_critical_skills", [])
+    tech_points = session.get("technical_skill_points", "0")
+    match_points = session.get("match_score", "0")
+    soft_points = session.get("soft_skill_score", "0")
+    domain_points = session.get("soft_skill_score", "0")
+    tool_points = session.get("tool_score")
+    strong = session.get("strong_points", [])
+    tools_suggestion = session.get("tools_to_learn", [])
+    strength = session.get("resume_strength", "")
+    insigths = session.get("career_insights", "")
+    recomm = session.get("recommendations", [])
 
     return render_template(
         "dash/index.html",
-        matched_skills=matched_skills,
-        missing_skills=missing_skills,
+        extracted_skills=extracted_sks,
+        skills_trending=trending_sks,
         missing = missing,
-        job=job_title, view=view)
+        job=job_title,
+        tech_points = tech_points,
+        match_points = match_points,
+        soft_points = soft_points,
+        domain_points=domain_points,
+        tool_points = tool_points,
+        strong = strong,
+        tools_suggestion = tools_suggestion,
+        strength = strength,
+        insigths = insigths,
+        recomm = recomm,
+        view=view
+    )
 
 
 
