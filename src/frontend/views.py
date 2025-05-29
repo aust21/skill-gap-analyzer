@@ -58,7 +58,6 @@ def dashboard():
             soft_skill_score = resume_analysis["soft_skill_score"]
             domain_knowledge = resume_analysis["domain_knowledge"]
             tool_score = resume_analysis["tool_score"]
-            strong_points = resume_analysis["strong_points"]
             missing_critical_skills = resume_analysis["missing_critical_skills"]
             tools_to_learn = resume_analysis["tools_to_learn"]
             resume_strength = resume_analysis["resume_strength"]
@@ -66,6 +65,17 @@ def dashboard():
             recommendations = resume_analysis["recommendations"]
             skills_demand = resume_analysis["trending_skills_demand"]
             transformed_demands = transform_skill_demands(skills_demand)
+            top_skills_to_learn = resume_analysis["top_skills_to_learn"]
+            to_learn, to_learn_demand = transform_skill_demands(top_skills_to_learn)
+            combined_skills = list(zip(to_learn, to_learn_demand))
+            
+            highlights = resume_analysis["skills_to_hightlight"]
+            transform_highlights = transform_skill_demands(highlights)
+            combined_highlights = list(zip(transform_highlights[0], transform_highlights[1]))
+
+            emerging = resume_analysis["emerging_technologies"]
+            transform_emerging = transform_skill_demands(emerging)
+            combined_emerging = list(zip(transform_emerging[0], transform_emerging[1]))
 
             session["skills_in_resume"] = skills_in_resume
             session["trending_skills"] = trending_skills
@@ -74,7 +84,6 @@ def dashboard():
             session["soft_skill_score"] = soft_skill_score
             session["domain_knowledge"] = domain_knowledge
             session["tool_score"] = tool_score
-            session["strong_points"] = strong_points
             session["missing_critical_skills"] = missing_critical_skills
             session["tools_to_learn"] = tools_to_learn
             session["resume_strength"] = resume_strength
@@ -82,6 +91,9 @@ def dashboard():
             session["recommendations"] = recommendations
             session["skills_demand"] = transformed_demands[0]
             session["demands"] = transformed_demands[1]
+            session["top_skills_to_learn"] = combined_skills
+            session["highlights"] = combined_highlights
+            session["emerging"] = combined_emerging
 
             return redirect(url_for("views.dashboard"))
 
@@ -96,13 +108,15 @@ def dashboard():
     soft_points = session.get("soft_skill_score", "0")
     domain_points = session.get("soft_skill_score", "0")
     tool_points = session.get("tool_score")
-    strong = session.get("strong_points", [])
     tools_suggestion = session.get("tools_to_learn", [])
     strength = session.get("resume_strength", "")
     insigths = session.get("career_insights", "")
     recomm = session.get("recommendations", [])
     industry_demands_skills = session.get("skills_demand", [])
     industry_demands = session.get("demands", [])
+    skills_to_lean = session.get("top_skills_to_learn",[])
+    highlight_skills = session.get("highlights")
+    emerging_technologies = session.get("emerging")
 
     return render_template(
         "dash/index.html",
@@ -115,14 +129,16 @@ def dashboard():
         soft_points = soft_points,
         domain_points=domain_points,
         tool_points = tool_points,
-        strong = strong,
         tools_suggestion = tools_suggestion,
         strength = strength,
         insigths = insigths,
         recomm = recomm,
         view=view,
         industry_demands=industry_demands,
-        industry_demands_skills=industry_demands_skills
+        industry_demands_skills=industry_demands_skills,
+        top_skills_to_learn=skills_to_lean,
+        highlights=highlight_skills,
+        emerging_technologies=emerging_technologies
     )
 
 def transform_skill_demands(demand_list):
@@ -146,3 +162,27 @@ def transform_skill_demands(demand_list):
             continue
             
     return skills, demands
+
+# def transform_skills_to_learn(skills_to_learn):
+#     skills = []
+#     demand = []
+
+#     for item in skills_to_learn:
+#         # Split into parts and separate the numeric demand from the skill name
+#         parts = item.split()
+#         if not parts:
+#             continue  # skip empty entries
+        
+#         # The last part should be the demand number
+#         try:
+#             demand = int(parts[-1])
+#             skill_name = ' '.join(parts[:-1])  # all parts except last form the skill name
+#             skills.append(skill_name)
+#             demand.append(demand)
+#         except (ValueError, IndexError):
+#             # Handle cases where last part isn't a number or item is malformed
+#             print(f"Skipping malformed skill-demand pair: {item}")
+#             continue
+            
+#     return skills, demand
+

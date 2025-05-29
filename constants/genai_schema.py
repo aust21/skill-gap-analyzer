@@ -4,7 +4,6 @@ from pydantic import BaseModel
 class GenAISchema(BaseModel):
     resume_skills: list[str]
     trending_skills: list[str]
-    strong_points: list[str]
     missing_critical_skills: list[str]
     tools_to_learn: list[str]
     certification_suggestions: list[str]
@@ -17,3 +16,6 @@ class GenAISchema(BaseModel):
     domain_knowledge:str
     tool_score:str
     trending_skills_demand:list[str]
+    top_skills_to_learn:list[str]
+    skills_to_hightlight:list[str]
+    emerging_technologies:list[str]

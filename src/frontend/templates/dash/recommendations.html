@@ -45,9 +45,8 @@
         <div class="ml-3">
           <p class="text-sm text-gray-700">
             Based on your resume analysis for
-            <strong>{{ job|default('Software Engineer') }}</strong>, we've
-            identified key skills gaps and learning opportunities to enhance
-            your marketability.
+            <strong>{{ job }}</strong>, we've identified key skills gaps and
+            learning opportunities to enhance your marketability.
           </p>
         </div>
       </div>
@@ -60,44 +59,20 @@
       >
         <h3 class="text-lg font-medium mb-2">Priority Skills to Learn</h3>
         <p class="text-sm text-gray-600 mb-4">
-          These skills have high market demand but are missing from your resume:
+          These skills have high market demand. You can improve on them or
+          learn:
         </p>
         <ul class="space-y-2">
-          {% for skill in priority_skills|default([]) %}
+          {% for skill,demand in top_skills_to_learn %}
           <li class="flex items-center">
             <div class="w-2 h-2 rounded-full bg-dashboard-blue mr-2"></div>
-            <span>{{ skill.name }}</span>
+            <span>{{ skill }}</span>
             <span
               class="ml-auto text-xs px-2 py-1 bg-blue-100 text-dashboard-blue rounded-full"
-              >{{ skill.demand_score }}%</span
+              >{{demand}}%</span
             >
           </li>
-          {% endfor %} {% if not priority_skills %}
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-blue mr-2"></div>
-            <span>Cloud Computing (AWS/Azure)</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-blue-100 text-dashboard-blue rounded-full"
-              >92%</span
-            >
-          </li>
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-blue mr-2"></div>
-            <span>Docker & Kubernetes</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-blue-100 text-dashboard-blue rounded-full"
-              >88%</span
-            >
-          </li>
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-blue mr-2"></div>
-            <span>CI/CD Pipelines</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-blue-100 text-dashboard-blue rounded-full"
-              >85%</span
-            >
-          </li>
-          {% endif %}
+          {% endfor %}
         </ul>
       </div>
 
@@ -109,41 +84,16 @@
           These are your strongest skills that align well with market demand:
         </p>
         <ul class="space-y-2">
-          {% for skill in highlight_skills|default([]) %}
+          {% for skill,demand in highlights %}
           <li class="flex items-center">
             <div class="w-2 h-2 rounded-full bg-dashboard-success mr-2"></div>
-            <span>{{ skill.name }}</span>
+            <span>{{ skill }}</span>
             <span
               class="ml-auto text-xs px-2 py-1 bg-green-100 text-dashboard-success rounded-full"
-              >{{ skill.match_score }}%</span
+              >{{ demand }}%</span
             >
           </li>
-          {% endfor %} {% if not highlight_skills %}
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-success mr-2"></div>
-            <span>JavaScript</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-green-100 text-dashboard-success rounded-full"
-              >95%</span
-            >
-          </li>
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-success mr-2"></div>
-            <span>React.js</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-green-100 text-dashboard-success rounded-full"
-              >92%</span
-            >
-          </li>
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-success mr-2"></div>
-            <span>SQL</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-green-100 text-dashboard-success rounded-full"
-              >90%</span
-            >
-          </li>
-          {% endif %}
+          {% endfor %}
         </ul>
       </div>
 
@@ -155,41 +105,16 @@
           These technologies are growing rapidly in your field:
         </p>
         <ul class="space-y-2">
-          {% for tech in emerging_technologies|default([]) %}
+          {% for tech,demand in emerging_technologies %}
           <li class="flex items-center">
             <div class="w-2 h-2 rounded-full bg-dashboard-warning mr-2"></div>
-            <span>{{ tech.name }}</span>
+            <span>{{ tech }}</span>
             <span
               class="ml-auto text-xs px-2 py-1 bg-yellow-100 text-dashboard-warning rounded-full"
-              >+{{ tech.growth_rate }}%</span
+              >+{{ demand }}%</span
             >
           </li>
-          {% endfor %} {% if not emerging_technologies %}
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-warning mr-2"></div>
-            <span>Machine Learning Ops</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-yellow-100 text-dashboard-warning rounded-full"
-              >+45%</span
-            >
-          </li>
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-warning mr-2"></div>
-            <span>WebAssembly</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-yellow-100 text-dashboard-warning rounded-full"
-              >+38%</span
-            >
-          </li>
-          <li class="flex items-center">
-            <div class="w-2 h-2 rounded-full bg-dashboard-warning mr-2"></div>
-            <span>Edge Computing</span>
-            <span
-              class="ml-auto text-xs px-2 py-1 bg-yellow-100 text-dashboard-warning rounded-full"
-              >+35%</span
-            >
-          </li>
-          {% endif %}
+          {% endfor %}
         </ul>
       </div>
     </div>
