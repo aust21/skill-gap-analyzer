@@ -12,9 +12,9 @@ views = Blueprint("views", __name__)
 
 @views.route("/")
 def home():
-    jobs = current_jobs()
+    
     return render_template(
-        "landing/landing.html", jobs=jobs)
+        "landing/landing.html")
 
 
 @views.route("/error")
@@ -64,6 +64,8 @@ def dashboard():
             resume_strength = resume_analysis["resume_strength"]
             career_insights = resume_analysis["career_insights"]
             recommendations = resume_analysis["recommendations"]
+            skills_demand = resume_analysis["trending_skills_demand"]
+            transformed_demands = transform_skill_demands(skills_demand)
 
             session["skills_in_resume"] = skills_in_resume
             session["trending_skills"] = trending_skills
@@ -78,6 +80,8 @@ def dashboard():
             session["resume_strength"] = resume_strength
             session["career_insights"] = career_insights
             session["recommendations"] = recommendations
+            session["skills_demand"] = transformed_demands[0]
+            session["demands"] = transformed_demands[1]
 
             return redirect(url_for("views.dashboard"))
 
@@ -97,6 +101,8 @@ def dashboard():
     strength = session.get("resume_strength", "")
     insigths = session.get("career_insights", "")
     recomm = session.get("recommendations", [])
+    industry_demands_skills = session.get("skills_demand", [])
+    industry_demands = session.get("demands", [])
 
     return render_template(
         "dash/index.html",
@@ -114,17 +120,29 @@ def dashboard():
         strength = strength,
         insigths = insigths,
         recomm = recomm,
-        view=view
+        view=view,
+        industry_demands=industry_demands,
+        industry_demands_skills=industry_demands_skills
     )
 
-
-
-def current_jobs():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    file = pd.read_json(os.path.join(current_dir, 'resources', 'sample_data.json'))
-    jobs = set()
-    for record in file.to_dict(orient="records"):
-        job_title = record['job_title'].strip()
-        jobs.add(job_title)
-
-    return jobs
+def transform_skill_demands(demand_list):
+    skills = []
+    demands = []
+    for item in demand_list:
+        # Split into parts and separate the numeric demand from the skill name
+        parts = item.split()
+        if not parts:
+            continue  # skip empty entries
+        
+        # The last part should be the demand number
+        try:
+            demand = int(parts[-1])
+            skill_name = ' '.join(parts[:-1])  # all parts except last form the skill name
+            skills.append(skill_name)
+            demands.append(demand)
+        except (ValueError, IndexError):
+            # Handle cases where last part isn't a number or item is malformed
+            print(f"Skipping malformed skill-demand pair: {item}")
+            continue
+            
+    return skills, demands

@@ -16,3 +16,4 @@ class GenAISchema(BaseModel):
     soft_skill_score: str
     domain_knowledge:str
     tool_score:str
+    trending_skills_demand:list[str]

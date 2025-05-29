@@ -73,6 +73,10 @@
       'dash/recommendations.html' %} {% endif %}
     </menu>
 
+    <script>
+      const skills = {{industry_demands_skills|tojson}}
+      const demands = {{industry_demands}}
+    </script>
     <script src="{{url_for('static', filename='js/dash.js')}}"></script>
   </body>
 </html>

@@ -13,7 +13,7 @@ def prompt(job_title, resume_text):
        - Skills in common (strong points)
        - Missing critical skills
        - Tools/technologies the user should learn
-       - Recommended certifications
+       - top 5 trending skills demand (out of 100) for example ["python 23", "java 87", "html 32", "react 89", "typescript 88"]
        - Career improvement suggestions
        - A short summary of the resume's strengths
        - Overall match of job title and resume skills (out of 100)
@@ -27,6 +27,7 @@ def prompt(job_title, resume_text):
     {{
       "resume_skills": [],
       "trending_skills": [],
+      "trending_skills_demand":[],
       "strong_points": [],
       "missing_critical_skills": [],
       "tools_to_learn": [],
