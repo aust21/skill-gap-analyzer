@@ -2,53 +2,61 @@
 
 ## Overview
 
-The **Dynamic Skill Gap Analyzer** is a data engineering project that extracts required skills using **Natural Language Processing (NLP)**, and compares them to a user's resume. The goal is to identify skill gaps and provide recommendations for career improvement.
+The Dynamic Skill Gap Analyzer is a data engineering project powered by Gemini AI that analyzes and compares the skills in your resume against trending industry demands. The goal? To sniff out your skill gaps like a bloodhound and suggest how to fix them.
 
-## Features
+Think of it as a brutally honest career coach—without the judgmental eyebrows.
 
-NB: **The project is still in development and not all features are implemented yet**    
-✅ Extract required job skills using **NLP (spaCy)**  
+## Old Features (RIP)
+
+**These features have been hit with a spinning kick so hard they fell 7km away from the repo...**  
+✅ ~~Store skill data in **PostgreSQL** for historical analysis~~  
+✅ ~~Extract required job skills using **NLP (spaCy)**~~  
+(We still love them, just... from afar.)
+
+## New features
+
 ✅ Parse and analyze a user's resume for existing skills  
-✅ Store skill data in **PostgreSQL** for historical analysis  
-❌ Identify missing skills for career improvement  
+✅ Identify missing skills for career improvement  
 ✅ Create a dashboard for better visualizations  
-✅ View the live [demo](skill-gap-analyzer.onrender.com/) demo
+✅ View the live [demo](https://cvanalysis.koyeb.app/) demo
 
-## Info for nerds 😊
+## 👾 For Nerds
+
 ### Tech Stack
 
-- **Python** (Data Processing, NLP & Dashboard)
-- **spaCy** (Skill Extraction)
-- **PostgreSQL** (Database Storage)
+- **Python** (Because why not....)
+- **Flask** (Because nobody wants raw JSON in the browser)
+- ~~**spaCy** (got replaced by ai)~~
+- ~~**PostgreSQL** (Now watching Killing Eve on netflix)~~
 
 ---
 
-### Installation (for developers)
+### Installation
 
-#### Prerequisites 
+#### Prerequisites
 
-- Python 3.8+
-- PostgreSQL
-- Docker Desktop (For local dev)
+- Python 3.9+
+- Ability to read bad code (required)
 
 #### Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/aust21/skill-gap-analyzer.git
    cd skill-gap-analyzer
    ```
-2. Install dependencies:
+
+2. Set up a virtual environment
+
+```bash
+python3 -m venv venv && souce venv/bin/activate
+```
+
+3. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
-   ```
-
-3. Set up PostgreSQL database:  
-⚠️ **NB**: Make sure you have docker, docker desktop installed and running on your system.  
-
-   ```bash
-   docker-compose up -d
    ```
 
 #### Usage
@@ -59,8 +67,12 @@ Run the entry point script:
 python3 app.py
 ```
 
-## Future Enhancements
-🚀 Provide **online course suggestions** to fill skill gaps  
-🚀 Fetch jobs and related skills from external sources
+## **👋 Contributions Welcome!**
 
-**Contributions Welcome!** Feel free to submit issues or pull requests. 🔥
+Ooh, together We can take it higher
+
+Come now, set the past on fire  
+Stand up, raise your face to the sky, my love  
+Together, we can take it higher  
+(Ooh, together)  
+We can take it higher
