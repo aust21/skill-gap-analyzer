@@ -23,6 +23,7 @@ def prompt(job_title, resume_text):
        - Top 3 skills to learn and priority (out of 100) for example ["aws 40", "docker 90", "django 99"]. Respond only with 3 skills to learn and not more or less.
        - Top 3 skills to highlighted from the resume and priority (out of 100) for example ["python 90", "pandas 90", "numpy 99"]. Respond only with 3 skills to learn and not more or less.
        - Top 3 skills emerging technologies and priority (out of 100) for example ["cloud computing 90", "natural language coding 90", "blazor 99"]. Respond only with 3 skills to learn and not more or less.
+       - Top 2 short term goals. the skills should be in this format: ["Learn docker:Learn containerization fundamentals to address the top skill gap in your profile.", "Build a Cloud-Based Project:Create a small project using AWS or Azure to demonstrate your cloud computing abilities."]. Respond only with 2 short term goals and not more or less.
 
     Respond with a valid JSON only. Do not include any explanation or text outside the JSON.
     This is the response format:
@@ -43,7 +44,8 @@ def prompt(job_title, resume_text):
       "tool_score":"",
       "top_skills_to_learn":[],
       "skills_to_hightlight":[],
-      "emerging_technologies":[]
+      "emerging_technologies":[],
+      "short_term_goals":[]
     }}
     """
     return prompt

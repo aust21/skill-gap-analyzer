@@ -1,3 +1,4 @@
+import ast
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from src.backend.extract_skills import extract_skills
 import src.backend.read_cv as cv_reader
@@ -77,6 +78,11 @@ def dashboard():
             transform_emerging = transform_skill_demands(emerging)
             combined_emerging = list(zip(transform_emerging[0], transform_emerging[1]))
 
+            short_term_goals = resume_analysis["short_term_goals"]
+            transformed_short_term_goal = transform_goals(short_term_goals)
+
+            
+
             session["skills_in_resume"] = skills_in_resume
             session["trending_skills"] = trending_skills
             session["technical_skill_points"] = technical_skill_points
@@ -94,6 +100,7 @@ def dashboard():
             session["top_skills_to_learn"] = combined_skills
             session["highlights"] = combined_highlights
             session["emerging"] = combined_emerging
+            session["short_term_goals"] = transformed_short_term_goal
 
             return redirect(url_for("views.dashboard"))
 
@@ -117,6 +124,7 @@ def dashboard():
     skills_to_lean = session.get("top_skills_to_learn",[])
     highlight_skills = session.get("highlights")
     emerging_technologies = session.get("emerging")
+    short_term_goals = session.get("short_term_goals")
 
     return render_template(
         "dash/index.html",
@@ -138,7 +146,8 @@ def dashboard():
         industry_demands_skills=industry_demands_skills,
         top_skills_to_learn=skills_to_lean,
         highlights=highlight_skills,
-        emerging_technologies=emerging_technologies
+        emerging_technologies=emerging_technologies,
+        short_term_goals=short_term_goals
     )
 
 def transform_skill_demands(demand_list):
@@ -163,26 +172,8 @@ def transform_skill_demands(demand_list):
             
     return skills, demands
 
-# def transform_skills_to_learn(skills_to_learn):
-#     skills = []
-#     demand = []
-
-#     for item in skills_to_learn:
-#         # Split into parts and separate the numeric demand from the skill name
-#         parts = item.split()
-#         if not parts:
-#             continue  # skip empty entries
-        
-#         # The last part should be the demand number
-#         try:
-#             demand = int(parts[-1])
-#             skill_name = ' '.join(parts[:-1])  # all parts except last form the skill name
-#             skills.append(skill_name)
-#             demand.append(demand)
-#         except (ValueError, IndexError):
-#             # Handle cases where last part isn't a number or item is malformed
-#             print(f"Skipping malformed skill-demand pair: {item}")
-#             continue
-            
-#     return skills, demand
-
+def transform_goals(goal_list):
+    parsed_goals = [
+    {"title": g.split(":", 1)[0].strip(), "description": g.split(":", 1)[1].strip()}
+    for g in goal_list]
+    return parsed_goals

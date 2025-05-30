@@ -19,3 +19,4 @@ class GenAISchema(BaseModel):
     top_skills_to_learn:list[str]
     skills_to_hightlight:list[str]
     emerging_technologies:list[str]
+    short_term_goals:list[str]
