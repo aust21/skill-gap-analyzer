@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 def create_app():
     app = Flask(__name__, static_folder='frontend/static',
                 template_folder='frontend/templates')
-    app.config['SECRET_KEY'] = "3d0afe0201361e1d3bc722e94fa110d23f2242a4a10509d2"
+    app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 
     from .frontend.views import views

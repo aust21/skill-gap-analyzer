@@ -29,7 +29,7 @@ def get_descriptions(job_id: str):
 
     response = requests.get(url, headers=headers, params=querystring)
 
-    print(response.json())
+    # print(response.json())
     return response.json()["data"]["description"]
 
 # id = search("data engineer")

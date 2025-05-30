@@ -28,7 +28,7 @@ def extract_skills(job_title, file_path):
     )
     try:
         return_val = json.loads(response.text)
-        print(return_val[0])
+        # print(return_val[0])
         return return_val[0]
     except Exception as err:
         log.error(f"Error: {err}")
