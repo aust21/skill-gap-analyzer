@@ -15,8 +15,8 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
-  <body>
-    <header class="py-8">
+  <body class="overflow-x-hidden">
+    <header class="py-8 w-full">
       <div class="text-center mb-8">
         <h1 class="text-3xl font-bold tracking-tight">
           Resume Skills Analytics Dashboard
@@ -41,17 +41,6 @@
               >Dashboard</a
             >
           </li>
-          <!-- <li
-            class="flex justify-center items-center gap-3 font-semibold text-sm py-1 px-8 rounded-md {{ 'bg-white' if view == 'analytics' else '' 'text-black' if view == 'analytics' else 'text-gray-400'}}"
-          >
-            <img
-              src="{{url_for('static', filename='assets/graph.png')}}"
-              alt="dashboard"
-              class="w-[.9rem]"
-            /><a href="{{url_for('views.dashboard', view='analytics')}}"
-              >Analytics</a
-            >
-          </li> -->
           <li
             class="flex justify-center items-center gap-3 font-semibold text-sm py-1 px-8 rounded-md {{ 'bg-white' if view == 'recommendation' else '' 'text-black' if view == 'recommendation' else 'text-gray-400' }}"
           >

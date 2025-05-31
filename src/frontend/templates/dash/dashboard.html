@@ -1,7 +1,11 @@
-<section class="py-3 px-16">
-  <div class="flex justify-between items-stretch w-full">
-    <div class="border border-1 rounded-xl w-[30%] p-4">
-      <h2 class="font-bold text-2xl">Skills Match</h2>
+<section class="py-3 px-4 sm:px-8 md:px-16">
+  <!-- Top Row - Skills Match & Analysis -->
+  <div
+    class="flex flex-col lg:flex-row justify-between items-stretch w-full gap-4 mb-4"
+  >
+    <!-- Skills Match Card -->
+    <div class="border border-1 rounded-xl w-full lg:w-[30%] p-4">
+      <h2 class="font-bold text-xl md:text-2xl">Skills Match</h2>
       <p class="text-gray-400 font-semibold text-sm">
         Your resume compared to trending skills
       </p>
@@ -23,50 +27,36 @@
 
         <div class="w-full">
           <span class="font-semibold text-sm">Skill Category</span>
-
           {% include 'dash/skills_categories.html' %}
         </div>
       </div>
     </div>
 
-    <div class="border border-1 rounded-xl w-[67%] p-4">
-      <h2 class="font-bold text-2xl">Skills Analysis</h2>
+    <!-- Skills Analysis Card -->
+    <div class="border border-1 rounded-xl w-full lg:w-[67%] p-4">
+      <h2 class="font-bold text-xl md:text-2xl">Skills Analysis</h2>
       <p class="text-gray-400 font-semibold text-sm">Top 5 market trends</p>
-      <div class="w-full mt-16">
-        <canvas id="skillsChart" width="600" height="150"></canvas>
+      <div class="w-full mt-4 md:mt-8 lg:mt-16">
+        <canvas id="skillsChart" class="w-full" height="150"></canvas>
       </div>
     </div>
   </div>
 
-  <!-- matching skills -->
-
-  <div class="flex justify-between items-stretch my-4">
-    <div class="border border-1 rounded-xl w-[30%] p-4">
+  <!-- Bottom Row - Skills Cards -->
+  <div
+    class="flex flex-col md:flex-row justify-between items-stretch gap-4 my-4"
+  >
+    <!-- Your Skills Card -->
+    <div class="border border-1 rounded-xl w-full md:w-[30%] p-4">
       <h4 class="font-semibold">Your skills</h4>
       <p class="text-sm font-semibold text-gray-400 mt-1">
         Skills extracted from your resume
       </p>
 
-      <div class="flex flex-wrap overflow-x-hidden items-center gap-3 mt-4">
+      <div class="flex flex-wrap items-center gap-2 mt-4">
         {% for skill in extracted_skills %}
-        <p class="bg-green-400 rounded-3xl py-1 px-4 font-semibold text-sm">
-          {{skill}}
-        </p>
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- missing skills -->
-
-    <div class="border border-1 rounded-xl w-[30%] p-4">
-      <h4 class="font-semibold">Missing Skills</h4>
-      <p class="text-sm font-semibold text-gray-400 mt-1">
-        Trending skills not found in your resume
-      </p>
-      <div class="flex flex-wrap overflow-x-hidden items-center gap-3 mt-4">
-        {% for skill in missing %}
         <p
-          class="rounded-3xl py-1 px-4 font-semibold text-sm border border-red-400 text-red-400"
+          class="bg-green-400 rounded-3xl py-1 px-3 font-semibold text-xs sm:text-sm"
         >
           {{skill}}
         </p>
@@ -74,16 +64,32 @@
       </div>
     </div>
 
-    <!-- recommendations -->
+    <!-- Missing Skills Card -->
+    <div class="border border-1 rounded-xl w-full md:w-[30%] p-4">
+      <h4 class="font-semibold">Missing Skills</h4>
+      <p class="text-sm font-semibold text-gray-400 mt-1">
+        Trending skills not found in your resume
+      </p>
+      <div class="flex flex-wrap items-center gap-2 mt-4">
+        {% for skill in missing %}
+        <p
+          class="rounded-3xl py-1 px-3 font-semibold text-xs sm:text-sm border border-red-400 text-red-400"
+        >
+          {{skill}}
+        </p>
+        {% endfor %}
+      </div>
+    </div>
 
-    <div class="border border-1 rounded-xl w-[30%] p-4">
+    <!-- Insights Card -->
+    <div class="border border-1 rounded-xl w-full md:w-[30%] p-4">
       <h4 class="font-semibold">Insights</h4>
       <p class="text-sm font-semibold text-gray-400 mt-1">
         Summary of suggestions to improve your resume
       </p>
       <div class="mt-4">
-        <div class="mt-4">
-          <p class="font-semibold">
+        <div class="mt-2 md:mt-4">
+          <p class="font-semibold text-sm md:text-base">
             <span class="text-gray-500">{{insigths}}</span>
           </p>
           <a
