@@ -1,5 +1,5 @@
 import logging
-import os, redis, json
+import os, json
 from dotenv import load_dotenv
 from google import genai
 

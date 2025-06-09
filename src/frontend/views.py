@@ -1,12 +1,12 @@
 import ast
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+# from src.backend.extract_skills import extract_skills
 from src.backend.extract_skills import extract_skills
 import src.backend.read_cv as cv_reader
 import src.backend.source as job_source
 import src.backend.main as process_skills
 import src.backend.process as prc
 import os, sys
-import pandas as pd
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 views = Blueprint("views", __name__)

@@ -1,7 +1,5 @@
-import spacy, re, pypdf, sys, os
+import re, pypdf, sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-
-nlp = spacy.load("en_core_web_sm")
 
 def read_resume(path):
     extracted_text = ""
