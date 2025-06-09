@@ -18,7 +18,7 @@ Think of it as a brutally honest career coach—without the judgmental eyebrows.
 ✅ Parse and analyze a user's resume for existing skills  
 ✅ Identify missing skills for career improvement  
 ✅ Create a dashboard for better visualizations  
-✅ View the live [demo](https://cvanalysis.koyeb.app/) demo
+✅ View the live [demo](https://skillanalyzer.pythonanywhere.com/) demo
 
 ## 👾 For Nerds
 
