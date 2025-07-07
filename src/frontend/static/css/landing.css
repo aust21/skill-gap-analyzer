@@ -4,5 +4,6 @@
   }
   .first {
     flex-direction: column;
+    padding: 0 1rem;
   }
 }
