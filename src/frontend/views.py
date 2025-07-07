@@ -51,6 +51,8 @@ def dashboard():
             resume.save(resume_path)
             
             resume_analysis = extract_skills(job_title, resume_path)
+            if not resume_analysis:
+                return redirect(url_for("views.error", tag="error"))
 
             skills_in_resume = resume_analysis["resume_skills"]
             trending_skills = resume_analysis["trending_skills"]

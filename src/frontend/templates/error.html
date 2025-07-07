@@ -15,14 +15,15 @@
     >
       <div class="mx-auto text-center">
         <img
-          src="{% if tag=='resume' %}{{ url_for('static', filename='assets/des.png') }} {% elif tag=='title'%} {{ url_for('static', filename='assets/r.png') }} {% elif tag=='r-t' %} {{ url_for('static', filename='assets/rt.png') }} {% endif %}"
+          src="{% if tag=='resume' or tag=='error' %}{{ url_for('static', filename='assets/des.png') }} {% elif tag=='title'%} {{ url_for('static', filename='assets/r.png') }} {% elif tag=='r-t' %} {{ url_for('static', filename='assets/rt.png') }} {% endif %}"
           alt="Thank you"
           class="block relative"
         />
         <h1 class="font-semibold text-sm text-[#ff0000]">
           {% if tag == "resume" %} But we need your resume {% elif tag ==
           "title" %} But we need a job title {% elif tag=='r-t' %} But we need a
-          job title and resume {% endif %}
+          job title and resume {% elif tag=="error" %} An error has occured,
+          please try again {% endif %}
         </h1>
         <button
           class="mt-[2rem] mx-auto rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white w-[70%]"
